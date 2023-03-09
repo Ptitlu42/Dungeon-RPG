@@ -1,0 +1,17 @@
+item
+    weapon
+    helmet
+    chestplate
+    belt
+    boots
+mobs
+    smallMob
+    mediumMob
+    bossMob
+player
+    archer
+    warrior
+
+    
+
+    
