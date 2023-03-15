@@ -5,3 +5,4 @@ class Mob:
         self.vitality = vitality
         self.strength = strength
         self.level = level
+        
