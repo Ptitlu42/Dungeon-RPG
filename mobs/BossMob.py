@@ -1,8 +1,7 @@
 import Mob
+class smallMob(Mob.Mob):
 
-class smallMob(Mob):
-
-    def __init__(self, name, vitality, strength, level, specialAttack) -> None:
-        super().__init__(self, name, vitality, strength, level)
+    def __init__(self, specialAttack, name, vitality, strength, level) -> None:
+        super().__init__(name, vitality, strength, level)
         self.specialAttack = specialAttack
         
