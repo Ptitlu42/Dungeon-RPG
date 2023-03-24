@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from settings import *
-from tile import Tile
+from Case import Tile
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups):

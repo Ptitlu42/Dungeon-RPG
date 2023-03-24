@@ -1,7 +1,4 @@
-import pygame
-
-
-class Tile:
+class case:
 
     def __init__(self, pos_x, pos_y, sprite, deco, info, occuped_by) -> None:
         self.pos_x = pos_x
