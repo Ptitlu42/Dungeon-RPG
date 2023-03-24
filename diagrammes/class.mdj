@@ -651,7 +651,7 @@
 											"font": "Arial;13;1",
 											"left": 861,
 											"top": 255,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "Item"
 										},
@@ -682,7 +682,7 @@
 									"font": "Arial;13;0",
 									"left": 856,
 									"top": 248,
-									"width": 117.29443359375,
+									"width": 118.037109375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHE0H5sHY60sM="
@@ -719,7 +719,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 278,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+id: int",
 											"horizontalAlignment": 0
@@ -736,7 +736,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 293,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+equipable: bool",
 											"horizontalAlignment": 0
@@ -753,7 +753,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 308,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+name: str",
 											"horizontalAlignment": 0
@@ -770,7 +770,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 323,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+emplacement: str",
 											"horizontalAlignment": 0
@@ -787,9 +787,9 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 338,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
-											"text": "+stregth_mod: int",
+											"text": "+strength_mod: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -804,7 +804,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 353,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+life_mod: int",
 											"horizontalAlignment": 0
@@ -821,7 +821,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 368,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+speed_mod: int",
 											"horizontalAlignment": 0
@@ -838,7 +838,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 383,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+const_mod: int",
 											"horizontalAlignment": 0
@@ -855,7 +855,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 398,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+ap_mod: int",
 											"horizontalAlignment": 0
@@ -872,7 +872,7 @@
 											"font": "Arial;13;0",
 											"left": 861,
 											"top": 413,
-											"width": 107.29443359375,
+											"width": 108.037109375,
 											"height": 13,
 											"text": "+heal: int",
 											"horizontalAlignment": 0
@@ -881,7 +881,7 @@
 									"font": "Arial;13;0",
 									"left": 856,
 									"top": 273,
-									"width": 117.29443359375,
+									"width": 118.037109375,
 									"height": 158
 								},
 								{
@@ -896,7 +896,7 @@
 									"font": "Arial;13;0",
 									"left": 856,
 									"top": 431,
-									"width": 117.29443359375,
+									"width": 118.037109375,
 									"height": 10
 								},
 								{
@@ -932,7 +932,7 @@
 							"containerChangeable": true,
 							"left": 856,
 							"top": 248,
-							"width": 117.29443359375,
+							"width": 118.037109375,
 							"height": 193,
 							"nameCompartment": {
 								"$ref": "AAAAAAGHE0H5sHY51Hk="
@@ -1148,7 +1148,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGHE0H5sHY2MLM="
 							},
-							"name": "stregth_mod",
+							"name": "strength_mod",
 							"type": "int"
 						},
 						{
