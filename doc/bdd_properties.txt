@@ -1,0 +1,7 @@
+wamp server version = 3.3.0 (64bits)
+apache version = 2.4.54.2
+mysql version = 8.0.31
+
+host = localhost:3306
+username = root
+password = password
