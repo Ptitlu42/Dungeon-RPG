@@ -15,3 +15,5 @@ class Case:
     def __repr__(self):
         t = f"pos x : {self.pos_x} / pos_y : {self.pos_y}"
         return t
+
+
