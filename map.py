@@ -22,8 +22,8 @@ def load_map(filename, rows, cols):
             elements = cell_value.split(",")
 
             case = Case.Case(j, i, elements[0], elements[1], elements[2], elements[3])
-            print(case.__repr__())
-            print(f"print {case}")
+            #print(case.__repr__())
+            #print(f"print {case}")
             actual_map.append(case)
             cell += 1
     return actual_map
