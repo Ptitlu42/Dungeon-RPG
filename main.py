@@ -5,7 +5,7 @@ import map
 import interface
 
 # Initialisation map
-loaded_map = map.load_map("maps/mapTest.xls", 10, 10)
+loaded_map = map.load_map("maps/mapTest.xls")
 
 # Pygame initialisation
 pygame.init()
