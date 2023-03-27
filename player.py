@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-from settings import *
 from Case import Tile
 
 class Player(pygame.sprite.Sprite):

@@ -3,9 +3,10 @@ import pygame as pygame
 import Constant
 import map
 import interface
+from map import find_object_case
 
 # Initialisation map
-loaded_map = map.load_map("maps/mapTest.xls")
+loaded_map = map.load_map("maps/mapTest2.xls")
 
 # Pygame initialisation
 pygame.init()
@@ -29,3 +30,22 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        return_result = find_object_case("maps/mapTest2.xls", "viking.png")
+        if return_result:
+            print("YES")
+        else:
+            print("NO")
+        
+        print("Le joueur a appuyé sur la flèche gauche")
+        
+    if keys[pygame.K_RIGHT]:
+        print("Le joueur a appuyé sur la flèche droite")
+        
+    if keys[pygame.K_UP]:
+        print("Le joueur a appuyé sur la flèche haut")
+        
+    if keys[pygame.K_DOWN]:
+        print("Le joueur a appuyé sur la flèche bas")
+    

@@ -9,3 +9,6 @@ SPRITE_HEIGHT = 64
 # Color Constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+
+# Map Constants
+CASE_SIZE = 64

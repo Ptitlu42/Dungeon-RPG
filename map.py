@@ -24,27 +24,29 @@ def load_map(filename):
         for j in range(nbr_cols):
             # Read the cell value
             cell_value = sheet.cell_value(i, j)
+            #print(f"Cell_value = \n {cell_value} \n")
 
             elements = cell_value.split(",")
-
+            #print (f"Elements = \n {elements} \n")
+            
             case = Case.Case(j, i, elements[0], elements[1], elements[2], elements[3])
-            #print(case.__repr__())
-            #print(f"print {case}")
+            #print(f"Case = \n {case} \n")
+            
             actual_map.append(case)
             cell += 1
     return actual_map
 
-# def get_number_of_columns_and_rows(rows, cols):
-#     nbr_cols = ()
-#     nbr_rows = ()
+#Find an object in map
+def find_object_case(filename, object_name):
+   
+    book = xlrd.open_workbook(filename)
+    worksheet = book.sheet_by_index(0)
     
-#     for i in range (cols):
-#         nbr_cols + 1
-        
-#     for i in range (rows):
-#         nbr_rows + 1
-        
-#     print (nbr_cols)
-#     print (nbr_rows)
-    
-# get_number_of_columns_and_rows(rows, cols)
+    for i in range(worksheet.nrows):
+        for j in range(worksheet.ncols):
+            cell_value = worksheet.cell_value(i, j)
+            elements = cell_value.split(",")
+            for element in elements:
+                if element == object_name:
+                    return True
+                    
