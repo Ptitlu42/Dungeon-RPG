@@ -23,7 +23,12 @@ class Player():
         self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         
     def player_move(self, loaded_map, screen):
-
+        '''
+        print all accessible tiles around the player and move him on key press if able
+        :param loaded_map:
+        :param screen:
+        :return:
+        '''
         actual_point = self.action_point
 
 
@@ -33,19 +38,24 @@ class Player():
             if actual_point > 0:
 
                 for case in loaded_map:
-
+                    # if the tile on the left of the player has no decoration
                     if case.pos_x == self.pos_x - 1 and case.pos_y == self.pos_y and case.deco == "":
                         pos_x = ((Constant.SCREEN_WIDTH / 2) + ((Constant.SPRITE_WIDTH / 2) * (case.pos_x))) - \
                                 Constant.SPRITE_WIDTH / 2 * (case.pos_y - 1)
 
                         pos_y = ((Constant.SPRITE_HEIGHT / 2) + ((Constant.SPRITE_HEIGHT / 2) * (case.pos_y + 1))) + \
                                 Constant.SPRITE_HEIGHT / 2.5 * case.pos_x - case.pos_y * Constant.SPRITE_HEIGHT * 0.12
+
+                        # print the accessible PNG on the tile
                         sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
                         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
                         screen.blit(sprite_player_redim, (pos_x, pos_y))
+
+                        # update the move option of the player
                         self.player_can_go["left"] = True
 
+                    # if the tile on the right of the player has no decoration
                     if case.pos_x == self.pos_x + 1 and case.pos_y == self.pos_y and case.deco == "":
 
                         pos_x = ((Constant.SCREEN_WIDTH / 2) + ((Constant.SPRITE_WIDTH / 2) * (case.pos_x))) - \
@@ -53,12 +63,17 @@ class Player():
 
                         pos_y = ((Constant.SPRITE_HEIGHT / 2) + ((Constant.SPRITE_HEIGHT / 2) * (case.pos_y + 1))) + \
                                 Constant.SPRITE_HEIGHT / 2.5 * case.pos_x - case.pos_y * Constant.SPRITE_HEIGHT * 0.12
+
+                        # print the accessible PNG on the tile
                         sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
                         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
                         screen.blit(sprite_player_redim, (pos_x, pos_y))
+
+                        # update the move option of the player
                         self.player_can_go["right"] = True
 
+                    # if the tile on the top of the player has no decoration
                     if case.pos_x == self.pos_x and case.pos_y == self.pos_y - 1 and case.deco == "":
 
                         pos_x = ((Constant.SCREEN_WIDTH / 2) + ((Constant.SPRITE_WIDTH / 2) * (case.pos_x))) - \
@@ -66,13 +81,18 @@ class Player():
 
                         pos_y = ((Constant.SPRITE_HEIGHT / 2) + ((Constant.SPRITE_HEIGHT / 2) * (case.pos_y + 1))) + \
                                 Constant.SPRITE_HEIGHT / 2.5 * case.pos_x - case.pos_y * Constant.SPRITE_HEIGHT * 0.12
+
+                        # print the accessible PNG on the tile
                         sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
                         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                                      (Constant.SPRITE_WIDTH,
                                                                       Constant.SPRITE_CARACTER_HEIGHT))
                         screen.blit(sprite_player_redim, (pos_x, pos_y))
+
+                        # update the move option of the player
                         self.player_can_go["up"] = True
 
+                    # if the tile on the top of the player has no decoration
                     if case.pos_x == self.pos_x and case.pos_y == self.pos_y + 1 and case.deco == "":
 
                         # accessible cells printing
@@ -81,17 +101,24 @@ class Player():
 
                         pos_y = ((Constant.SPRITE_HEIGHT / 2) + ((Constant.SPRITE_HEIGHT / 2) * (case.pos_y + 1))) + \
                                 Constant.SPRITE_HEIGHT / 2.5 * case.pos_x - case.pos_y * Constant.SPRITE_HEIGHT * 0.12
+
+                        # print the accessible PNG on the tile
                         sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
                         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
                         screen.blit(sprite_player_redim, (pos_x, pos_y))
+
+                        # update the move option of the player
                         self.player_can_go["down"] = True
 
                     interface.print_player(self, screen)
                     pygame.display.flip()
                     self.last_x = self.pos_x
                     self.last_y = self.pos_y
-        print(f"{self.player_can_go['down']} {self.player_can_go['up']} {self.player_can_go['left']}")
+        '''print(f"{self.player_can_go['down']} {self.player_can_go['up']} "
+              f"{self.player_can_go['left']} {self.player_can_go['right']}")'''
+
+        # applying the movement to the player
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
             self.pos_x -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
