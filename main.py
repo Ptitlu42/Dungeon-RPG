@@ -15,13 +15,5 @@ if __name__ == '__main__':
     pygame.init()
 
     game = game.Game()
+    print(game.loaded_map.actual_map)
     game.run()
-
-
-
-'''# Cleaning screen
-screen.fill(Constant.BLACK)
-
-# Affichage de la map
-interface.print_map(loaded_map, screen)
-interface.print_player(player, screen)'''
