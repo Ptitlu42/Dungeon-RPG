@@ -53,3 +53,9 @@ def cell_xy_to_screen_xy(coord):
     print(screen_xy)
     return screen_xy
 
+def print_stat(pa, screen):
+    pos_x = Constant.SCREEN_WIDTH / 2
+    pos_y = Constant.SCREEN_HEIGHT - Constant.SCREEN_HEIGHT / 5
+    police = pygame.font.SysFont("arial", 30)
+    txt_pa = police.render("Point d'action restants : " + str(pa), True, Constant.BLACK)
+    screen.blit(txt_pa, (pos_x, pos_y))

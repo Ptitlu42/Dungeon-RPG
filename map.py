@@ -6,18 +6,18 @@ import Case
 # variables
 class Map():
 
-    def __init__(self, filename, rows, cols):
+    def __init__(self, filename):
 
         self.actual_map = []
         # Open the workbook
         self.book = xlrd.open_workbook(filename)
         # Get the first sheet
         sheet = self.book.sheet_by_index(0)
-        self.rows = rows
-        self.cols = cols
+        self.rows = sheet.nrows
+        self.cols = sheet.ncols
         # Read the rows and columns
-        for i in range(rows):
-            for j in range(cols):
+        for i in range(self.rows):
+            for j in range(self.cols):
                 # Read the cell value
                 cell_value = sheet.cell_value(i, j)
 

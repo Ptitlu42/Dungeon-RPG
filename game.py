@@ -15,6 +15,7 @@ class Game():
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
         self.screen_player = pygame.display.set_mode(window_size)
+
         pygame.display.set_caption("POEC Fantasy")
 
         # Player initialisation
@@ -23,7 +24,7 @@ class Game():
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         # map 3d iso
         # Initialisation
-        self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls", 10, 10)
+        self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls")
 
 
 
