@@ -23,3 +23,9 @@ PLAYER_TILES_PATH = "sprites/caracters/misc/"
 BG = "sprites/background/"
 DECO = "sprites/deco/"
 MAPS = "maps/"
+
+
+# Prompts pnj
+
+PR_AGGRESSIVE = ""
+PR_FRIENDLY = ""
