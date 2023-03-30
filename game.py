@@ -7,7 +7,6 @@ import time
 import map
 import interface
 
-
 class Game():
 
     def __init__(self):
