@@ -31,7 +31,5 @@ class Map():
 
     def get_cell_by_xy(self, x, y):
         id = x + self.cols * y
-        print(id)
         cell = self.actual_map[id]
-        print(cell)
         return cell
