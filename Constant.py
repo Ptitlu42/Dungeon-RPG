@@ -27,5 +27,6 @@ MAPS = "maps/"
 
 # Prompts pnj
 
-PR_AGGRESSIVE = ""
-PR_FRIENDLY = ""
+PR_AGGRESSIVE = "Context: 'Tu es un méchant dans un jeux vidéo et un joueur viens te parler, improvise en étant aggressif et distant avec lui, voici son message:'"
+PR_FRIENDLY = "Context: 'Tu es un gentil dans un jeux vidéo, et un joueur viens te parler, improvise en étant amical avec lui, à la fin tu dois lui donner la quète, voici son message:'"
+DEBUG = "Ne te met pas à la place du joueur voici la quetes et le context: \n"
