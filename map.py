@@ -26,6 +26,8 @@ def load_map(filename, rows, cols):
             #print(f"print {case}")
             actual_map.append(case)
             cell += 1
+    print(f"debug:{actual_map}")
+    
     return actual_map
 
 '''def load_map2(map):
