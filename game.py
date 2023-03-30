@@ -15,6 +15,7 @@ class Game():
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
         self.screen_player = pygame.display.set_mode(window_size)
+
         pygame.display.set_caption("POEC Fantasy")
 
         # Player initialisation

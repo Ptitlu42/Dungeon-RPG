@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.last_x = 0
         self.last_y = 0
         self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
+        self.actual_point = self.action_point
 
     def get_image(self, x, y):
         image = pygame.Surface([Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT])
@@ -47,12 +48,10 @@ class Player(pygame.sprite.Sprite):
         :return:
         """
 
-        actual_point = self.action_point
-
         if self.last_x != self.pos_x or self.last_y != self.pos_y:
 
             # accessible cells printing
-            if actual_point > 0:
+            if self.actual_point > 0:
 
                 left_cell = map.get_cell_by_xy(self.pos_x - 1, self.pos_y)
                 if left_cell.deco == "":
@@ -125,18 +124,27 @@ class Player(pygame.sprite.Sprite):
             self.pos_x -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
             interface.print_map(map, screen)
+            self.actual_point -= 1
         if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
             self.pos_x += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
             interface.print_map(map, screen)
+            self.actual_point -= 1
         if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
             self.pos_y -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
             interface.print_map(map, screen)
+            self.actual_point -= 1
         if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
             self.pos_y += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
             interface.print_map(map, screen)
+            self.actual_point -= 1
 
         interface.print_player(self, screen)
+        self.print_stat_player(screen)
         # pygame.display.flip()
+
+    def print_stat_player(self, screen):
+        interface.print_stat(self.actual_point, screen)
+
