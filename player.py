@@ -129,8 +129,6 @@ class Player(pygame.sprite.Sprite):
                         self.player_can_go["down"] = True
 
 
-                    #screen.fill(Constant.TRANSP)
-
                     self.last_x = self.pos_x
                     self.last_y = self.pos_y
 
