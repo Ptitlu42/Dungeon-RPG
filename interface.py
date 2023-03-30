@@ -14,7 +14,7 @@ def print_map(map, screen):
     background = pygame.image.load(f"{Constant.BG}scroll.png")
     bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
     screen.blit(bg_redim, (0, 0))
-    for case in map:
+    for case in map.actual_map:
         pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (case.pos_x + 1))) - \
                 Constant.SPRITE_WIDTH / 2 * case.pos_y
 

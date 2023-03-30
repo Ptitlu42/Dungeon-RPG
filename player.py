@@ -5,7 +5,7 @@
 import Constant
 import pygame
 import interface
-
+import map
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [self.pos_x * Constant.SPRITE_WIDTH, self.pos_y * Constant.SPRITE_HEIGHT]
 
     #Coyotte move function
-    def player_move(self, loaded_map, screen):
+    def player_move(self, map, screen):
         """
         print all accessible tiles around the player and move him on key press if able
         :param loaded_map:
@@ -54,7 +54,7 @@ class Player(pygame.sprite.Sprite):
             # accessible cells printing
             if actual_point > 0:
 
-                for case in loaded_map:
+                for case in map.actual_map:
                     # if the tile on the left of the player has no decoration
                     if case.pos_x == self.pos_x - 1 and case.pos_y == self.pos_y and case.deco == "":
                         pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (case.pos_x))) - \
@@ -128,8 +128,10 @@ class Player(pygame.sprite.Sprite):
                         # update the move option of the player
                         self.player_can_go["down"] = True
 
+
+                    #screen.fill(Constant.TRANSP)
                     interface.print_player(self, screen)
-                    pygame.display.flip()
+                    #pygame.display.flip()
                     self.last_x = self.pos_x
                     self.last_y = self.pos_y
 
@@ -137,16 +139,16 @@ class Player(pygame.sprite.Sprite):
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
             self.pos_x -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-            interface.print_map(loaded_map, screen)
+
         if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
             self.pos_x += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-            interface.print_map(loaded_map, screen)
+
         if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
             self.pos_y -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-            interface.print_map(loaded_map, screen)
+
         if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
             self.pos_y += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-            interface.print_map(loaded_map, screen)
+
