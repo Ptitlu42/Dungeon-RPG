@@ -24,7 +24,7 @@ class Game():
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         # map 3d iso
         # Initialisation
-        self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls", 10, 10)
+        self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls")
 
 
 
