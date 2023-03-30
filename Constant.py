@@ -1,6 +1,9 @@
+from userinfo import screen_width
+from userinfo import screen_height
+
 # Screen Constants
-SCREEN_HEIGHT = 600
-SCREEN_WIDTH = 800
+SCREEN_HEIGHT = screen_height
+SCREEN_WIDTH = screen_width
 
 # Sprites Constants
 SPRITE_WIDTH = 64
