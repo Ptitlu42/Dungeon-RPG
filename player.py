@@ -130,8 +130,7 @@ class Player(pygame.sprite.Sprite):
 
 
                     #screen.fill(Constant.TRANSP)
-                    interface.print_player(self, screen)
-                    #pygame.display.flip()
+
                     self.last_x = self.pos_x
                     self.last_y = self.pos_y
 
@@ -139,16 +138,19 @@ class Player(pygame.sprite.Sprite):
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
             self.pos_x -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-
+            interface.print_map(map, screen)
         if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
             self.pos_x += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-
+            interface.print_map(map, screen)
         if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
             self.pos_y -= 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-
+            interface.print_map(map, screen)
         if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
             self.pos_y += 1
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
+            interface.print_map(map, screen)
 
+        interface.print_player(self, screen)
+        # pygame.display.flip()
