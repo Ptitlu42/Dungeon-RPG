@@ -26,4 +26,14 @@ def load_map(filename, rows, cols):
             #print(f"print {case}")
             actual_map.append(case)
             cell += 1
+    print(f"debug:{actual_map}")
+    
     return actual_map
+
+'''def load_map2(map):
+    nb_line = 0
+    for line in map.:
+        nb_element = 0
+        for element in line:
+            nb_element += 1
+            case = Case.case(nb_element, nb_line, )'''

@@ -3,29 +3,25 @@ import pygame as pygame
 import Constant
 import map
 import interface
+import player
+import game
 
-# Initialisation map
-loaded_map = map.load_map("maps/mapTest.xls", 10, 10)
-
-# Pygame initialisation
-pygame.init()
-
-# Creating Window
-window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
-screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption("POEC Fantasy")
+# import importlib
+# battlefield = importlib.import_module('maps/battlefield_map.py')
 
 
-# Cleaning screen
+if __name__ == '__main__':
+    # Pygame initialisation
+    pygame.init()
+
+    game = game.Game()
+    game.run()
+
+
+
+'''# Cleaning screen
 screen.fill(Constant.BLACK)
 
 # Affichage de la map
 interface.print_map(loaded_map, screen)
-
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            
+interface.print_player(player, screen)'''
