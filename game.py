@@ -48,7 +48,8 @@ class Game():
         # game loop
         running = True
         while running:
-            self.player.player_move(self.loaded_map, self.screen_player)
+
+            self.player.player_move(self.loaded_map, self.screen_map)
             # self.handle_input()
             pygame.display.flip()
 
