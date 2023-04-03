@@ -2,10 +2,13 @@
 # from pygame.locals import *
 # from  settings import *
 # from Case import Tile
+import time
+
 import Constant
 import pygame
 import interface
 import map
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
@@ -43,7 +46,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.rect.topleft = [self.pos_x * Constant.SPRITE_WIDTH, self.pos_y * Constant.SPRITE_HEIGHT]
 
-    #Coyotte move function
+    # Coyotte move function
     def player_move(self, map, screen, interface, game):
         """
         print all accessible tiles around the player and move him on key press if able
@@ -61,78 +64,38 @@ class Player(pygame.sprite.Sprite):
 
                 interface.print_action_menu(screen, self)
                 interface.print_map(map, screen, self)
-                interface.print_player(self, screen)
-                pygame.display.flip()
 
-                left_cell = map.get_cell_by_xy(self.pos_x - 1, self.pos_y)
-                if left_cell.deco == "" and left_cell.occuped_by == "":
-                    cell_xy = (left_cell.pos_x, left_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
+                for pos in [[self.pos_x + 1, self.pos_y], [self.pos_x, self.pos_y + 1], [self.pos_x - 1, self.pos_y],
+                            [self.pos_x, self.pos_y - 1]]:
 
-                    # print the accessible PNG on the tile
-                    sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
-                    sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                                 (Constant.SPRITE_WIDTH,
-                                                                  Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_player_redim, (cell[0], cell[1]))
+                    celltest = map.get_cell_by_xy(pos[0], pos[1])
+                    if celltest.deco == "" and celltest.occuped_by == "":
+                        cell_xy = (celltest.pos_x, celltest.pos_y)
+                        cell = interface.cell_xy_to_screen_xy(cell_xy)
 
-                    # update the move option of the player
-                    self.player_can_go["left"] = True
+                        # print the fightable PNG on the tile
+                        sprite_bluecell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
+                        sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
+                                                                       (Constant.SPRITE_WIDTH,
+                                                                        Constant.SPRITE_CARACTER_HEIGHT))
+                        screen.blit(sprite_bluecell_redim, (cell[0], cell[1]))
 
-                right_cell = map.get_cell_by_xy(self.pos_x + 1, self.pos_y)
-                if right_cell.deco == "" and right_cell.occuped_by == "":
-                    cell_xy = (right_cell.pos_x, right_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
+                        # Updating movement possibilities
+                        if pos == [self.pos_x + 1, self.pos_y]:
+                            self.player_can_go["right"] = True
+                        elif pos == [self.pos_x, self.pos_y + 1]:
+                            self.player_can_go["down"] = True
+                        elif pos == [self.pos_x - 1, self.pos_y]:
+                            self.player_can_go["left"] = True
+                        elif pos == [self.pos_x, self.pos_y - 1]:
+                            self.player_can_go["up"] = True
 
-                    # print the accessible PNG on the tile
-                    sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
-                    sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                                 (Constant.SPRITE_WIDTH,
-                                                                  Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_player_redim, (cell[0], cell[1]))
+                self.last_x = self.pos_x
+                self.last_y = self.pos_y
 
-                    # update the move option of the player
-                    self.player_can_go["right"] = True
-
-                top_cell = map.get_cell_by_xy(self.pos_x, self.pos_y - 1)
-                if top_cell.deco == "" and top_cell.occuped_by == "":
-                    cell_xy = (top_cell.pos_x, top_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
-
-                    # print the accessible PNG on the tile
-                    sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
-                    sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                                 (Constant.SPRITE_WIDTH,
-                                                                  Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_player_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["up"] = True
-
-                bottom_cell = map.get_cell_by_xy(self.pos_x, self.pos_y + 1)
-                if bottom_cell.deco == "" and bottom_cell.occuped_by == "":
-                    cell_xy = (bottom_cell.pos_x, bottom_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
-
-                    # print the accessible PNG on the tile
-                    sprite_player = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
-                    sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                                 (Constant.SPRITE_WIDTH,
-                                                                  Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_player_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["down"] = True
-
-                for case in map.actual_map:
-                    # if the tile on the left of the player has no decoration
-
-                    self.last_x = self.pos_x
-                    self.last_y = self.pos_y
-
-                    # pygame.display.flip()
         for player in game.player_list:
             interface.print_player(player, screen)
+        print(f"test : {self.player_can_go}")
         # applying the movement to the player
         player_has_moved = False
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
@@ -157,15 +120,9 @@ class Player(pygame.sprite.Sprite):
             interface.print_map(map, screen, self)
             self.actual_point -= 1
 
-
-
         pygame.display.flip()
-
-
-        #interface.print_player(self, screen)
-
-        # pygame.display.flip()
-
+        if player_has_moved:
+            time.sleep(0.2)
 
     def player_melee(self, map, screen, interface, game):
         """
@@ -185,73 +142,29 @@ class Player(pygame.sprite.Sprite):
 
             # accessible cells printing
             if self.actual_point > 0:
+                for pos in [[self.pos_x + 1, self.pos_y], [self.pos_x, self.pos_y + 1], [self.pos_x - 1, self.pos_y],
+                            [self.pos_x, self.pos_y - 1]]:
+                    print(pos)
+                    celltest = map.get_cell_by_xy(pos[0], pos[1])
+                    if celltest.occuped_by != "":
+                        cell_xy = (celltest.pos_x, celltest.pos_y)
+                        cell = interface.cell_xy_to_screen_xy(cell_xy)
 
-                left_cell = map.get_cell_by_xy(self.pos_x - 1, self.pos_y)
-                if left_cell.occuped_by != "":
-                    cell_xy = (left_cell.pos_x, left_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
+                        # print the fightable PNG on the tile
+                        sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
+                        sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
+                                                                      (Constant.SPRITE_WIDTH,
+                                                                       Constant.SPRITE_CARACTER_HEIGHT))
+                        screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
 
-                    # print the fightable PNG on the tile
-                    sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
-                    sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
-                                                                 (Constant.SPRITE_WIDTH,
-                                                                  Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["left"] = True
-
-                right_cell = map.get_cell_by_xy(self.pos_x + 1, self.pos_y)
-                if right_cell.occuped_by != "":
-                    cell_xy = (right_cell.pos_x, right_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
-
-                    # print the fightable PNG on the tile
-                    sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
-                    sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
-                                                                  (Constant.SPRITE_WIDTH,
-                                                                   Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["right"] = True
-
-                top_cell = map.get_cell_by_xy(self.pos_x, self.pos_y - 1)
-                if top_cell.occuped_by != "":
-                    cell_xy = (top_cell.pos_x, top_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
-
-                    # print the fightable PNG on the tile
-                    sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
-                    sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
-                                                                  (Constant.SPRITE_WIDTH,
-                                                                   Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["up"] = True
-
-                bottom_cell = map.get_cell_by_xy(self.pos_x, self.pos_y + 1)
-                if bottom_cell.occuped_by != "":
-                    cell_xy = (bottom_cell.pos_x, bottom_cell.pos_y)
-                    cell = interface.cell_xy_to_screen_xy(cell_xy)
-
-                    # print the fightable PNG on the tile
-                    sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
-                    sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
-                                                                  (Constant.SPRITE_WIDTH,
-                                                                   Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
-
-                    # update the move option of the player
-                    self.player_can_go["down"] = True
-
-                """for case in map.actual_map:
-                    # if the tile on the left of the player has no decoration
-
-                    self.last_x = self.pos_x
-                    self.last_y = self.pos_y"""
-
+                        if pos == [self.pos_x + 1, self.pos_y]:
+                            self.player_can_go["right"] = True
+                        elif pos == [self.pos_x, self.pos_y + 1]:
+                            self.player_can_go["down"] = True
+                        elif pos == [self.pos_x - 1, self.pos_y]:
+                            self.player_can_go["left"] = True
+                        elif pos == [self.pos_x, self.pos_y - 1]:
+                            self.player_can_go["up"] = True
 
                 for player in game.player_list:
                     interface.print_player(player, screen)

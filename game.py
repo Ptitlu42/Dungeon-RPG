@@ -33,10 +33,12 @@ class Game():
         player_s_cell.occuped_by = self.player
         self.player2 = player.Player(5, 5, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": ""},
-                                    f"{Constant.PLAYER_PATH}cat.png", 5, 5)
+                                    f"{Constant.PLAYER_PATH}cat.png", 3, 4)
         self.player_list.append(self.player2)
         player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         player2_s_cell.occuped_by = self.player2
+
+        self.turn = 0
 
     def handle_input(self): # get the pressed key
         pressed = pygame.key.get_pressed()
