@@ -35,7 +35,7 @@ class Interface():
                 sprite_redim = pygame.transform.scale(sprite_deco, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
                 screen.blit(sprite_redim, (cell[0], cell[1] - 10))
 
-        pygame.display.flip()
+        #pygame.display.flip()
 
     def print_player(self, player, screen):
         '''
@@ -54,7 +54,7 @@ class Interface():
         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
         screen.blit(sprite_player_redim, (pos_x, pos_y - 10))
-        pygame.display.flip()
+        #pygame.display.flip()
 
     def cell_xy_to_screen_xy(self, coord):
         """
