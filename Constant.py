@@ -23,6 +23,7 @@ TRANSP = (0, 0, 0, 0)
 PLAYER_PATH = "sprites/caracters/player/"
 PLAYER_TILES_PATH = "sprites/caracters/misc/"
 BG = "sprites/background/"
+FLOOR = "sprites/floor/"
 DECO = "sprites/deco/"
 MAPS = "maps/"
 BUTTONS =  "sprites/buttons/"

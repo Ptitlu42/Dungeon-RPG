@@ -26,7 +26,7 @@ class Interface():
             cell_xy = (case.pos_x, case.pos_y)
             cell = self.cell_xy_to_screen_xy(cell_xy)
 
-            sprite_floor = pygame.image.load(f"sprites/{case.sprite}")
+            sprite_floor = pygame.image.load(f"{Constant.FLOOR}{case.sprite}")
             sprite_redim = pygame.transform.scale(sprite_floor, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
             screen.blit(sprite_redim, (cell[0], cell[1]))
 
@@ -77,8 +77,8 @@ class Interface():
         :param screen:
         :return:
         """
-        pos_x = Constant.SCREEN_WIDTH / 2
-        pos_y = Constant.SCREEN_HEIGHT - Constant.SCREEN_HEIGHT / 5
+        pos_x = Constant.SCREEN_WIDTH / 50
+        pos_y = (Constant.SCREEN_HEIGHT / 30)
         police = pygame.font.SysFont("arial", 30)
         txt_pa = police.render("Point d'action restants : " + str(player.actual_point), True, Constant.BLACK)
         screen.blit(txt_pa, (pos_x, pos_y))
@@ -97,14 +97,14 @@ class Interface():
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
 
                 else:
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}movebutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
                 self.move_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
             if i == 1:
@@ -113,14 +113,14 @@ class Interface():
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
 
                 else:
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}meleebutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
                 self.melee_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
             if i == 2:
@@ -129,13 +129,13 @@ class Interface():
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
 
                 else:
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}rangedbutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
                     pos_x_button = Constant.SPRITE_WIDTH / 20
-                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 50) * (i + 1)
+                    pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
                 self.ranged_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
