@@ -13,6 +13,8 @@ import map
 class Player(pygame.sprite.Sprite):
     def __init__(self, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
         super().__init__()
+        self.stuff_list = None
+        self.id_list = None
         self.sprite_sheet = pygame.image.load(f'{Constant.PLAYER_PATH}basic.png')
         self.image = self.get_image(0, 0)
         self.rect = self.image.get_rect()
@@ -20,12 +22,17 @@ class Player(pygame.sprite.Sprite):
 
         # our data
         self.strength = strength
+        self.strength_mod = strength
         self.life = life
+        self.life_mod = life
         self.speed = speed
+        self.speed_mod = speed
         self.const = const
+        self.const_mod = const
         self.action_point = action_point
+        self.action_point_mod = action_point
         self.inventory = inventory
-        self.equiped_stuff = equiped_stuff,
+        self.equiped_stuff = equiped_stuff
         self.sprite = sprite
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -39,6 +46,9 @@ class Player(pygame.sprite.Sprite):
         self.end_turn = False
         self.last_action = ""
         self.is_active = False
+        
+        
+        
 
 
     def __str__(self):
@@ -51,7 +61,32 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.topleft = [self.pos_x * Constant.SPRITE_WIDTH, self.pos_y * Constant.SPRITE_HEIGHT]
-
+    
+    def get_id_equiped_from_player(self, player)-> list:
+        equiped_ids_stuff_list = []
+        for ids in player.equiped_stuff.items():
+            if ids.value != "":
+                equiped_ids_stuff_list.append(ids.value)
+        return equiped_ids_stuff_list
+    
+    def get_items_from_ids_list(self, list, game) -> list:
+        equiped_stuff_list = []
+        for id_item in list:
+            equiped_stuff_list.append(game.item.get_item_id(id_item, game.item_list))
+        return equiped_stuff_list
+            
+    def stat_with_mods(self, equiped_stuff_list):
+        for item in equiped_stuff_list:
+            self.strength.mod += item.strength_mod
+            self.speed.mod += item.speed_mod
+            self.const_mod += item.const_mod
+            self.life_mod += item.life_mod
+        
+    def get_mod_from_player(self):
+        self.id_list = self.get_id_equiped_from_player(self)
+        self.stuff_list = self.get_items_from_ids_list(self.id_list)
+        self.stat_with_mods(self.stuff_list)
+        
     # Coyotte move function
     def player_move(self, map, screen, interface, game):
         """
@@ -107,6 +142,7 @@ class Player(pygame.sprite.Sprite):
         :param interface:
         :return:
         """
+
         self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
 
         if self.last_x != self.pos_x or self.last_y != self.pos_y or self.last_action != "melee":
@@ -114,11 +150,40 @@ class Player(pygame.sprite.Sprite):
             self.last_action = "melee"
             # interface.print_action_menu(screen, self)
             # interface.print_map(map, screen, self)
-
+            player_has_attacked, target = False, False
             # accessible cells printing
             if self.actual_point > 0:
+                if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
+                    target = (-1, 0)
+                    player_has_attacked = True
+                if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
+                    target = (1, 0)
+                    player_has_attacked = True
+                if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
+                    target = (0, -1)
+                    player_has_attacked = True
+                if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
+                    target = (0, 1)
+                    player_has_attacked = True
                 interface.print_map(map, screen, self, game)
 
+                if player_has_attacked:
+                    attack_power = self.strength
+                    for ids in self.equiped_stuff.items():
+                        if ids.value != "":
+                            object = game.item.get_item_id(ids.value)
+                            attack_power += object.strength_mod
+                    target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
+                    target_caracter = target_cell.occuped_by
+                    target_def = target_caracter.const
+                    for ids in target_caracter.equiped_stuff.items():
+                        if ids.value != "":
+                            object = game.item.get_item_id(ids.value)
+                            target_def += object.const_mod
+                    if attack_power > target_def:
+                        target_caracter.life -= attack_power - target_def
+                    
+                            
     def player_ranged(self, map, screen, interface, game):
         """
         player make a ranged attack

@@ -6,6 +6,7 @@ import player
 import time
 import map
 import interface
+import item
 
 class Game():
 
@@ -26,18 +27,29 @@ class Game():
         # Player initialisation
         self.player_list = []
         player_temp = None
-        self.player = player.Player(5, 5, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": ""},
+        self.player = player.Player(5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+                                    {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         self.player_list.append(self.player)
         player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
         player_s_cell.occuped_by = self.player
-        self.player2 = player.Player(5, 5, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": ""},
+        self.player2 = player.Player(5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 1},
                                     f"{Constant.PLAYER_PATH}cat.png", 3, 4)
         self.player_list.append(self.player2)
         player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         player2_s_cell.occuped_by = self.player2
+
+        # Item creation
+        self.item_list = []
+        self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0)
+        self.item_list.append(self.item)
+        self.item = item.Item(2, True, "Magic Sword", "right hand", 1, 0, 2, 0, 0, 0)
+        self.item_list.append(self.item)
+        self.item = item.Item(3, True, "Wooden Shield", "left hand", 0, 0, 0, 1, 0, 0)
+        self.item_list.append(self.item)
+
+        self.item.get_item_id(2, self.item_list)
 
         print(self.player_list[0])
 

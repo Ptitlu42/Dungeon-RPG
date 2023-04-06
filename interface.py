@@ -22,7 +22,7 @@ class Interface():
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
         self.print_action_menu(screen, player)
-        self.print_stat(screen, player)
+        self.print_stat(screen, player, game)
         for case in map.actual_map:
             cell_xy = (case.pos_x, case.pos_y)
             cell = self.cell_xy_to_screen_xy(cell_xy)
@@ -81,7 +81,7 @@ class Interface():
         screen_xy = (pos_x, pos_y)
         return screen_xy
 
-    def print_stat(self, screen, player):
+    def print_stat(self, screen, player, game):
         """
         print the stats of the player on the screen
         :param player:
@@ -89,10 +89,17 @@ class Interface():
         :return:
         """
         pos_x = Constant.SCREEN_WIDTH / 50
-        pos_y = (Constant.SCREEN_HEIGHT / 30)
+        pos_y = (2 * Constant.SCREEN_HEIGHT / 30)
         police = pygame.font.SysFont("arial", 30)
+        i = 1
+        for player_print in game.player_list:
+            txt_pv = police.render("pv: " + str(player_print.life_mod), True, Constant.BLACK)
+            screen.blit(txt_pv, (pos_x, pos_y + i * 25))
+            i += 1
         txt_pa = police.render("Point d'action restants : " + str(player.actual_point), True, Constant.BLACK)
         screen.blit(txt_pa, (pos_x, pos_y))
+
+
 
     def print_action_menu(self, screen, player):
         for i in range(0, 4, 1):

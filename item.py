@@ -1,4 +1,4 @@
-class item:
+class Item:
 
     def __init__(self, id, equipable, name, emplacement, strength_mod, life_mod, speed_mod, const_mod, ap_mod, heal) -> None:
         self.id = id
@@ -12,6 +12,11 @@ class item:
         self.ap_mod = ap_mod
         self.heal = heal
 
+    def get_item_id(self, id, item_list):
+        n = len(item_list)
+        for i in range(n):
+            if item_list[i].id == id:
+                return object
 
 
 
