@@ -8,6 +8,7 @@ class Interface():
         self.move_button_zone = ""
         self.melee_button_zone = ""
         self.ranged_button_zone = ""
+        self.end_button_zone = ""
 
     def print_map(self, map, screen, player):
         '''
@@ -84,7 +85,7 @@ class Interface():
         screen.blit(txt_pa, (pos_x, pos_y))
 
     def print_action_menu(self, screen, player):
-        for i in range(0, 3, 1):
+        for i in range(0, 4, 1):
             '''sprite_button = pygame.image.load(f"{Constant.BUTTONS}button_ready.png")
             sprite_button_redim = pygame.transform.scale(sprite_button,
                                                          (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
@@ -138,4 +139,12 @@ class Interface():
                     pos_x_button = Constant.SPRITE_WIDTH / 20
                     pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
                 self.ranged_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
+                screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
+            if i == 3:
+                sprite_button = pygame.image.load(f"{Constant.BUTTONS}endbutton.png")
+                sprite_button_redim = pygame.transform.scale(sprite_button,
+                                                             (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
+                pos_x_button = Constant.SPRITE_WIDTH / 20
+                pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
+                self.end_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))

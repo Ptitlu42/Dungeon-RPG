@@ -36,7 +36,12 @@ class Player(pygame.sprite.Sprite):
         self.action_move = False
         self.action_melee = False
         self.action_ranged = False
+        self.end_turn = False
         self.last_action = ""
+
+
+    def __str__(self):
+        return str(self.speed)
 
     def get_image(self, x, y):
         image = pygame.Surface([Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT])
@@ -117,8 +122,11 @@ class Player(pygame.sprite.Sprite):
             player_s_cell = map.get_cell_by_xy(self.pos_x, self.pos_y)
             player_s_cell.occuped_by = self
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-            interface.print_map(map, screen, self)
             self.actual_point -= 1
+            interface.print_map(map, screen, self)
+
+
+
 
         pygame.display.flip()
         if player_has_moved:
