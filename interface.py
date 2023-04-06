@@ -57,7 +57,14 @@ class Interface():
         sprite_player = pygame.image.load(player.sprite)
         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+
+        if player.is_active:
+            halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
+            halo_player_redim = pygame.transform.scale(halo_player,
+                                                     (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+            screen.blit(halo_player_redim, (pos_x, pos_y))
         screen.blit(sprite_player_redim, (pos_x, pos_y - 10))
+
 
 
     def cell_xy_to_screen_xy(self, coord):
@@ -164,7 +171,7 @@ class Interface():
 
                     if celltest.deco == "" and celltest.occuped_by == "":
                     # print the accessible PNG on the tile
-                        sprite_bluecell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
+                        sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
                         sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
                                                                        (Constant.SPRITE_WIDTH,
                                                                         Constant.SPRITE_CARACTER_HEIGHT))
@@ -175,7 +182,7 @@ class Interface():
                         cell = self.cell_xy_to_screen_xy(cell_xy)
 
                         # print the fightable PNG on the tile
-                        sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
+                        sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
                         sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
                                                                       (Constant.SPRITE_WIDTH,
                                                                        Constant.SPRITE_CARACTER_HEIGHT))

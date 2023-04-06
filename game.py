@@ -58,6 +58,7 @@ class Game():
         running = True
         while running:
             for player in self.player_list:
+                player.is_active = True
                 turn_is_on = True
                 player.actual_point = player.action_point
                 print(player)
@@ -93,6 +94,7 @@ class Game():
                             player.action_move = False
                             player.action_melee = False
                             player.action_ranged = False
+                            player.is_active = False
                             turn_is_on = False
                             time.sleep(0.2)
                             self.interface.print_map(self.loaded_map, self.screen_map, player, self)

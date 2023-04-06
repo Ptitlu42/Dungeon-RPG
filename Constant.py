@@ -21,7 +21,7 @@ TRANSP = (0, 0, 0, 0)
 
 # Path
 PLAYER_PATH = "sprites/caracters/player/"
-PLAYER_TILES_PATH = "sprites/caracters/misc/"
+MISC = "sprites/caracters/misc/"
 BG = "sprites/background/"
 FLOOR = "sprites/floor/"
 DECO = "sprites/deco/"

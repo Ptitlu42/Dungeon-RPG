@@ -38,6 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.action_ranged = False
         self.end_turn = False
         self.last_action = ""
+        self.is_active = False
 
 
     def __str__(self):
