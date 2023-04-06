@@ -61,9 +61,11 @@ class Game():
                 turn_is_on = True
                 player.actual_point = player.action_point
                 print(player)
-                while turn_is_on :
-                    # Get mouse position
+                self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
+                while turn_is_on :
+
+                    # Get mouse position
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     # Get mouse click
                     left_click, center_click, right_click = (pygame.mouse.get_pressed())
@@ -93,8 +95,8 @@ class Game():
                             player.action_ranged = False
                             turn_is_on = False
                             time.sleep(0.2)
-                            self.interface.print_map(self.loaded_map, self.screen_map, player)
-                            pygame.display.flip()
+                            self.interface.print_map(self.loaded_map, self.screen_map, player, self)
+
                             for player_print in self.player_list:
                                 self.interface.print_player(player_print, self.screen_map )
                     # self.handle_input()
@@ -128,8 +130,5 @@ class Game():
     def run(self):
 
         # Affichage de la map
-        self.interface.print_map(self.loaded_map, self.screen_map, self.player)
-        for player in self.player_list:
-            self.interface.print_player(player, self.screen_map)
-        pygame.display.flip()
+        self.interface.print_map(self.loaded_map, self.screen_map, self.player, self)
         self.turn()

@@ -10,7 +10,7 @@ class Interface():
         self.ranged_button_zone = ""
         self.end_button_zone = ""
 
-    def print_map(self, map, screen, player):
+    def print_map(self, map, screen, player, game):
         '''
         print the map in the window
         :param map:
@@ -35,8 +35,11 @@ class Interface():
                 sprite_deco = pygame.image.load(f"{Constant.DECO}{case.deco}")
                 sprite_redim = pygame.transform.scale(sprite_deco, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
                 screen.blit(sprite_redim, (cell[0], cell[1] - 10))
+        self.check_case(player, map, screen)
+        for player_print in game.player_list:
+            self.print_player(player_print, screen)
 
-        #pygame.display.flip()
+        pygame.display.flip()
 
     def print_player(self, player, screen):
         '''
@@ -55,7 +58,7 @@ class Interface():
         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
         screen.blit(sprite_player_redim, (pos_x, pos_y - 10))
-        #pygame.display.flip()
+
 
     def cell_xy_to_screen_xy(self, coord):
         """
@@ -148,3 +151,46 @@ class Interface():
                 pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1)
                 self.end_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
+
+    def check_case(self, player, map, screen):
+        if player.actual_point > 0:
+            for pos in [[player.pos_x + 1, player.pos_y], [player.pos_x, player.pos_y + 1], [player.pos_x - 1, player.pos_y],
+                        [player.pos_x, player.pos_y - 1]]:
+
+                celltest = map.get_cell_by_xy(pos[0], pos[1])
+                if  player.action_move:
+                    cell_xy = (celltest.pos_x, celltest.pos_y)
+                    cell = self.cell_xy_to_screen_xy(cell_xy)
+
+                    if celltest.deco == "" and celltest.occuped_by == "":
+                    # print the accessible PNG on the tile
+                        sprite_bluecell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}accessible.png")
+                        sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
+                                                                       (Constant.SPRITE_WIDTH,
+                                                                        Constant.SPRITE_CARACTER_HEIGHT))
+                        screen.blit(sprite_bluecell_redim, (cell[0], cell[1]))
+                if player.action_melee:
+                    if celltest.occuped_by != "":
+                        cell_xy = (celltest.pos_x, celltest.pos_y)
+                        cell = self.cell_xy_to_screen_xy(cell_xy)
+
+                        # print the fightable PNG on the tile
+                        sprite_redcell = pygame.image.load(f"{Constant.PLAYER_TILES_PATH}fightable.png")
+                        sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
+                                                                      (Constant.SPRITE_WIDTH,
+                                                                       Constant.SPRITE_CARACTER_HEIGHT))
+                        screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
+
+                if player.action_ranged:
+                    pass
+
+
+                # Updating movement possibilities
+                if pos == [player.pos_x + 1, player.pos_y]:
+                    player.player_can_go["right"] = True
+                elif pos == [player.pos_x, player.pos_y + 1]:
+                    player.player_can_go["down"] = True
+                elif pos == [player.pos_x - 1, player.pos_y]:
+                    player.player_can_go["left"] = True
+                elif pos == [player.pos_x, player.pos_y - 1]:
+                    player.player_can_go["up"] = True
