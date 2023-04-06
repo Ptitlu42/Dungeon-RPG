@@ -74,7 +74,6 @@ class Player(pygame.sprite.Sprite):
 
         for player in game.player_list:
             interface.print_player(player, screen)
-        print(f"test : {self.player_can_go}")
         # applying the movement to the player
         player_has_moved = False
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
