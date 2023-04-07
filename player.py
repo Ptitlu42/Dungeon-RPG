@@ -63,11 +63,11 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.rect.topleft = [self.pos_x * Constant.SPRITE_WIDTH, self.pos_y * Constant.SPRITE_HEIGHT]
     
-    def get_id_equiped_from_player(self, player)-> list:
+    def get_id_equiped_from_player(self, player) -> list:
         equiped_ids_stuff_list = []
         for ids in player.equiped_stuff.items():
-            if ids.value != "":
-                equiped_ids_stuff_list.append(ids.value)
+            if ids[1] != "":
+                equiped_ids_stuff_list.append(ids[1])
         return equiped_ids_stuff_list
     
     def get_items_from_ids_list(self, list, game) -> list:
@@ -83,9 +83,9 @@ class Player(pygame.sprite.Sprite):
             self.const_mod += item.const_mod
             self.life_mod += item.life_mod
         
-    def get_mod_from_player(self):
+    def get_mod_from_player(self, game):
         self.id_list = self.get_id_equiped_from_player(self)
-        self.stuff_list = self.get_items_from_ids_list(self.id_list)
+        self.stuff_list = self.get_items_from_ids_list(self.id_list, game)
         self.stat_with_mods(self.stuff_list)
         
     # Coyotte move function

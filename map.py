@@ -27,7 +27,7 @@ class Map():
                 # print(case.__repr__())
                 # print(f"print {case}")
                 self.actual_map.append(self.case)
-        print(self.actual_map)
+        # print(self.actual_map)
 
     def get_cell_by_xy(self, x, y):
         id = x + self.cols * y

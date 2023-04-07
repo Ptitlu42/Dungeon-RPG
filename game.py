@@ -24,22 +24,6 @@ class Game():
         # map 3d iso instanciation
         self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls")
 
-        # Player initialisation
-        self.player_list = []
-        player_temp = None
-        self.player = player.Player("Owlet", 5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
-                                    f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
-        self.player_list.append(self.player)
-        player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
-        player_s_cell.occuped_by = self.player
-        self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 1},
-                                    f"{Constant.PLAYER_PATH}cat.png", 3, 4)
-        self.player_list.append(self.player2)
-        player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
-        player2_s_cell.occuped_by = self.player2
-
         # Item creation
         self.item_list = []
         self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0)
@@ -50,6 +34,27 @@ class Game():
         self.item_list.append(self.item)
 
         self.item.get_item_id(2, self.item_list)
+
+        # Player initialisation
+        self.player_list = []
+        player_temp = None
+        self.player = player.Player("Owlet", 5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+                                    {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
+                                    f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
+        self.get_mod_from_player(self.player)
+        self.player_list.append(self.player)
+        player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
+        player_s_cell.occuped_by = self.player
+        self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 1},
+                                    f"{Constant.PLAYER_PATH}cat.png", 3, 4)
+        self.get_mod_from_player(self.player2)
+        self.player_list.append(self.player2)
+        player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
+        player2_s_cell.occuped_by = self.player2
+
+
+
 
         print(self.player_list[0])
 
@@ -126,6 +131,31 @@ class Game():
                             running = False
                             pygame.quit()
 
+    def get_id_equiped_from_player(self, player) -> list:
+        equiped_ids_stuff_list = []
+        for ids in player.equiped_stuff.items():
+            if ids[1] != "":
+                equiped_ids_stuff_list.append(ids[1])
+        return equiped_ids_stuff_list
+
+    def get_items_from_ids_list(self, list) -> list:
+        equiped_stuff_list = []
+        for id_item in list:
+            equiped_stuff_list.append(self.item.get_item_id(id_item, self.item_list))
+        return equiped_stuff_list
+
+    def stat_with_mods(self, equiped_stuff_list, player):
+        for item in equiped_stuff_list:
+            print(item)
+            player.strength_mod += item.strength_mod
+            player.speed_mod += item.speed_mod
+            player.const_mod += item.const_mod
+            player.life_mod += item.life_mod
+
+    def get_mod_from_player(self, player):
+        self.id_list = self.get_id_equiped_from_player(player)
+        self.stuff_list = self.get_items_from_ids_list(self.id_list)
+        self.stat_with_mods(self.stuff_list, player)
 
 
     def handle_input(self): # get the pressed key
