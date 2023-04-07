@@ -140,17 +140,19 @@ class Game():
 
     def get_items_from_ids_list(self, list) -> list:
         equiped_stuff_list = []
-        for id_item in list:
-            equiped_stuff_list.append(self.item.get_item_id(id_item, self.item_list))
+        n = len(list)
+        for id_item in range(n):
+            equiped_stuff_list.append(self.item.get_item_id(list[id_item], self.item_list))
         return equiped_stuff_list
 
     def stat_with_mods(self, equiped_stuff_list, player):
-        for item in equiped_stuff_list:
-            print(item)
-            player.strength_mod += item.strength_mod
-            player.speed_mod += item.speed_mod
-            player.const_mod += item.const_mod
-            player.life_mod += item.life_mod
+        n = len(equiped_stuff_list)
+        for item in range(n):
+            print(equiped_stuff_list[item])
+            player.strength_mod += equiped_stuff_list[item].strength_mod
+            player.speed_mod += equiped_stuff_list[item].speed_mod
+            player.const_mod += equiped_stuff_list[item].const_mod
+            player.life_mod += equiped_stuff_list[item].life_mod
 
     def get_mod_from_player(self, player):
         self.id_list = self.get_id_equiped_from_player(player)
