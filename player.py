@@ -11,8 +11,9 @@ import map
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
+    def __init__(self, name, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
         super().__init__()
+        self.name = name
         self.stuff_list = None
         self.id_list = None
         self.sprite_sheet = pygame.image.load(f'{Constant.PLAYER_PATH}basic.png')
@@ -108,8 +109,6 @@ class Player(pygame.sprite.Sprite):
                 self.last_x = self.pos_x
                 self.last_y = self.pos_y
 
-        for player in game.player_list:
-            interface.print_player(player, screen)
         # applying the movement to the player
         player_has_moved = False
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:

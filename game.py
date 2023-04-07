@@ -27,13 +27,13 @@ class Game():
         # Player initialisation
         self.player_list = []
         player_temp = None
-        self.player = player.Player(5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player = player.Player("Owlet", 5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         self.player_list.append(self.player)
         player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
         player_s_cell.occuped_by = self.player
-        self.player2 = player.Player(5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 1},
                                     f"{Constant.PLAYER_PATH}cat.png", 3, 4)
         self.player_list.append(self.player2)
