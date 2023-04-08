@@ -12,14 +12,14 @@ class Item:
         self.ap_mod = ap_mod
         self.heal = heal
 
-    def __repr__(self):
-        print(self.name, self.strength_mod, self.life_mod)
+    """def __repr__(self):
+        print(self.name, self.strength_mod, self.life_mod)"""
 
     def get_item_id(self, id, item_list):
         n = len(item_list)
         for i in range(n):
             if item_list[i].id == id:
-                return object
+                return item_list[i]
 
 
 
