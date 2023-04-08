@@ -21,6 +21,7 @@ class Interface():
         background = pygame.image.load(f"{Constant.BG}scroll.png")
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
+        player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         self.print_action_menu(screen, player)
         self.print_stat(screen, player, game)
         for case in map.actual_map:
@@ -66,11 +67,9 @@ class Interface():
         if player.is_active:
             halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
             halo_player_redim = pygame.transform.scale(halo_player,
-                                                     (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                                                       (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
             screen.blit(halo_player_redim, (pos_x, pos_y))
         screen.blit(sprite_player_redim, (pos_x, pos_y - 10))
-
-
 
     def cell_xy_to_screen_xy(self, coord):
         """
@@ -120,8 +119,6 @@ class Interface():
         screen.blit(active_player, (pos_x, pos_y))
         screen.blit(txt_pa, (pos_x, pos_y + 50))
 
-
-
     def print_action_menu(self, screen, player):
         for i in range(0, 4, 1):
             pos_x_button = Constant.SPRITE_WIDTH / 20
@@ -136,7 +133,8 @@ class Interface():
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}movebutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
-                self.move_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
+                self.move_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH,
+                                                    Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
             if i == 1:
@@ -148,7 +146,8 @@ class Interface():
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}meleebutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
-                self.melee_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
+                self.melee_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH,
+                                                     Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
             if i == 2:
@@ -160,19 +159,23 @@ class Interface():
                     sprite_button = pygame.image.load(f"{Constant.BUTTONS}rangedbutton.png")
                     sprite_button_redim = pygame.transform.scale(sprite_button,
                                                                  (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
-                self.ranged_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
+                self.ranged_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH,
+                                                      Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
             if i == 3:
                 sprite_button = pygame.image.load(f"{Constant.BUTTONS}endbutton.png")
                 sprite_button_redim = pygame.transform.scale(sprite_button,
                                                              (Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT))
-                self.end_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH, Constant.BUTTON_HEIGHT)
+                self.end_button_zone = pygame.Rect(pos_x_button, pos_y_button, Constant.BUTTON_WIDTH,
+                                                   Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
     def check_case(self, player, map, screen, case_pos_x, case_pos_y):
         if player.actual_point > 0:
-            for pos in [[player.pos_x + 1, player.pos_y], [player.pos_x, player.pos_y + 1], [player.pos_x - 1, player.pos_y],
+
+            for pos in [[player.pos_x + 1, player.pos_y], [player.pos_x, player.pos_y + 1],
+                        [player.pos_x - 1, player.pos_y],
                         [player.pos_x, player.pos_y - 1]]:
 
                 celltest = map.get_cell_by_xy(pos[0], pos[1])
@@ -182,34 +185,39 @@ class Interface():
                         cell = self.cell_xy_to_screen_xy(cell_xy)
 
                         if celltest.deco == "" and celltest.occuped_by == "":
-                        # print the accessible PNG on the tile
+                            # print the accessible PNG on the tile
                             sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
                             sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
                                                                            (Constant.SPRITE_WIDTH,
                                                                             Constant.SPRITE_CARACTER_HEIGHT))
                             screen.blit(sprite_bluecell_redim, (cell[0], cell[1]))
-                    if player.action_melee:
-                        if celltest.occuped_by != "":
-                            cell_xy = (celltest.pos_x, celltest.pos_y)
-                            cell = self.cell_xy_to_screen_xy(cell_xy)
+                            self.set_player_can_move(player, pos)
 
+                    if player.action_melee:
+                        cell_xy = (celltest.pos_x, celltest.pos_y)
+                        cell = self.cell_xy_to_screen_xy(cell_xy)
+                        if celltest.occuped_by != "":
                             # print the fightable PNG on the tile
                             sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
                             sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
                                                                           (Constant.SPRITE_WIDTH,
                                                                            Constant.SPRITE_CARACTER_HEIGHT))
                             screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
+                            self.set_player_can_move(player, pos)
 
                     if player.action_ranged:
                         pass
 
+    def set_player_can_move(self, player, pos):
+        # Updating movement possibilities
 
-                # Updating movement possibilities
-                if pos == [player.pos_x + 1, player.pos_y]:
-                    player.player_can_go["right"] = True
-                elif pos == [player.pos_x, player.pos_y + 1]:
-                    player.player_can_go["down"] = True
-                elif pos == [player.pos_x - 1, player.pos_y]:
-                    player.player_can_go["left"] = True
-                elif pos == [player.pos_x, player.pos_y - 1]:
-                    player.player_can_go["up"] = True
+        if pos == [player.pos_x + 1, player.pos_y]:
+            player.player_can_go["right"] = True
+        elif pos == [player.pos_x, player.pos_y + 1]:
+            player.player_can_go["down"] = True
+        elif pos == [player.pos_x - 1, player.pos_y]:
+            player.player_can_go["left"] = True
+        elif pos == [player.pos_x, player.pos_y - 1]:
+            player.player_can_go["up"] = True
+
+

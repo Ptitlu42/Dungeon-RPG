@@ -142,46 +142,50 @@ class Player(pygame.sprite.Sprite):
         :return:
         """
 
-        self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
 
-        if self.last_x != self.pos_x or self.last_y != self.pos_y or self.last_action != "melee":
 
-            self.last_action = "melee"
-            # interface.print_action_menu(screen, self)
-            # interface.print_map(map, screen, self)
-            player_has_attacked, target = False, False
-            # accessible cells printing
-            if self.actual_point > 0:
-                if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
-                    target = (-1, 0)
-                    player_has_attacked = True
-                if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
-                    target = (1, 0)
-                    player_has_attacked = True
-                if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
-                    target = (0, -1)
-                    player_has_attacked = True
-                if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
-                    target = (0, 1)
-                    player_has_attacked = True
-                interface.print_map(map, screen, self, game)
+        #if self.last_x != self.pos_x or self.last_y != self.pos_y or self.last_action != "melee":
 
-                if player_has_attacked:
-                    attack_power = self.strength
-                    for ids in self.equiped_stuff.items():
-                        if ids.value != "":
-                            object = game.item.get_item_id(ids.value)
-                            attack_power += object.strength_mod
-                    target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
-                    target_caracter = target_cell.occuped_by
-                    target_def = target_caracter.const
-                    for ids in target_caracter.equiped_stuff.items():
-                        if ids.value != "":
-                            object = game.item.get_item_id(ids.value)
-                            target_def += object.const_mod
-                    if attack_power > target_def:
-                        target_caracter.life -= attack_power - target_def
-                    
+        self.last_action = "melee"
+        # interface.print_action_menu(screen, self)
+        # interface.print_map(map, screen, self)
+        player_has_attacked, target = False, False
+        # accessible cells printing
+
+        if self.actual_point > 0:
+            if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
+                target = (-1, 0)
+                player_has_attacked = True
+            if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
+                target = (1, 0)
+                player_has_attacked = True
+            if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
+                target = (0, -1)
+                player_has_attacked = True
+                print('attack')
+            if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
+                target = (0, 1)
+                player_has_attacked = True
+            interface.print_map(map, screen, self, game)
+
+            if player_has_attacked:
+                """attack_power = self.strength
+                for ids in self.equiped_stuff.items():
+                    if ids.value != "":
+                        object = game.item.get_item_id(ids.value)
+                        attack_power += object.strength_mod"""
+                target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
+                target_caracter = target_cell.occuped_by
+                """target_def = target_caracter.const
+                for ids in target_caracter.equiped_stuff.items():
+                    if ids.value != "":
+                        object = game.item.get_item_id(ids.value)
+                        target_def += object.const_mod"""
+                if self.strength_mod > target_caracter.const_mod:
+                    target_caracter.life -= self.strength_mod - target_caracter.const_mod
+
+
+
                             
     def player_ranged(self, map, screen, interface, game):
         """
