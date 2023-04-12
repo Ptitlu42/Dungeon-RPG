@@ -121,6 +121,12 @@ class Interface():
         screen.blit(txt_pa, (pos_x, pos_y + 50))
 
     def print_action_menu(self, screen, player):
+        """
+        print the action menu on the screen
+        :param screen:
+        :param player:
+        :return:
+        """
         for i in range(0, 4, 1):
             pos_x_button = Constant.SPRITE_WIDTH / 20
             pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1) + 100
@@ -173,6 +179,15 @@ class Interface():
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
     def check_case(self, player, map, screen, case_pos_x, case_pos_y):
+        """
+        verify if the cells are available
+        :param player:
+        :param map:
+        :param screen:
+        :param case_pos_x:
+        :param case_pos_y:
+        :return:
+        """
         if player.actual_point > 0:
 
             for pos in [[player.pos_x + 1, player.pos_y], [player.pos_x, player.pos_y + 1],
@@ -210,7 +225,12 @@ class Interface():
                         pass
 
     def set_player_can_move(self, player, pos):
-        # Updating movement possibilities
+        """
+        Update the "player_can_move" attibute
+        :param player:
+        :param pos:
+        :return:
+        """
 
         if pos == [player.pos_x + 1, player.pos_y]:
             player.player_can_go["right"] = True

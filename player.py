@@ -142,15 +142,8 @@ class Player(pygame.sprite.Sprite):
         :return:
         """
 
-
-
-        #if self.last_x != self.pos_x or self.last_y != self.pos_y or self.last_action != "melee":
-
         self.last_action = "melee"
-        # interface.print_action_menu(screen, self)
-        # interface.print_map(map, screen, self)
         player_has_attacked, target = False, False
-        # accessible cells printing
 
         if self.actual_point > 0:
             if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
@@ -169,18 +162,8 @@ class Player(pygame.sprite.Sprite):
 
             if player_has_attacked:
                 self.actual_point -= 1
-                """attack_power = self.strength
-                for ids in self.equiped_stuff.items():
-                    if ids.value != "":
-                        object = game.item.get_item_id(ids.value)
-                        attack_power += object.strength_mod"""
                 target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
                 target_caracter = target_cell.occuped_by
-                """target_def = target_caracter.const
-                for ids in target_caracter.equiped_stuff.items():
-                    if ids.value != "":
-                        object = game.item.get_item_id(ids.value)
-                        target_def += object.const_mod"""
                 if self.strength_mod > target_caracter.const_mod:
                     length = len(game.player_list)
                     for i in range(length):
