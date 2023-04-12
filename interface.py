@@ -96,21 +96,22 @@ class Interface():
         pos_y = (2 * Constant.SCREEN_HEIGHT / 3)
         police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
         i = 1
-        for player_print in game.player_list:
-            txt_name = police.render((player_print.name), True, Constant.BLACK)
+        length = len(game.player_list)
+        for i in range(length):
+            txt_name = police.render((game.player_list[i].name), True, Constant.BLACK)
             txt_pv = police.render("Life : ", True, Constant.BLACK)
-            val_pv = police.render(str(player_print.life_mod), True, Constant.BLACK)
+            val_pv = police.render(str(game.player_list[i].life_mod), True, Constant.BLACK)
             txt_strength = police.render("Strenght : ", True, Constant.BLACK)
-            val_strength = police.render(str(player_print.strength_mod), True, Constant.BLACK)
+            val_strength = police.render(str(game.player_list[i].strength_mod), True, Constant.BLACK)
             txt_const = police.render("Const : ", True, Constant.BLACK)
-            val_const = police.render(str(player_print.const_mod), True, Constant.BLACK)
-            screen.blit(txt_name, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100), pos_y))
-            screen.blit(txt_pv, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 25))
-            screen.blit(val_pv, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 25))
-            screen.blit(txt_strength, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 50))
-            screen.blit(val_strength, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 50))
-            screen.blit(txt_const, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 75))
-            screen.blit(val_const, (pos_x + (i - 1) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 75))
+            val_const = police.render(str(game.player_list[i].const_mod), True, Constant.BLACK)
+            screen.blit(txt_name, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y))
+            screen.blit(txt_pv, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 25))
+            screen.blit(val_pv, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 25))
+            screen.blit(txt_strength, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 50))
+            screen.blit(val_strength, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 50))
+            screen.blit(txt_const, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 75))
+            screen.blit(val_const, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 75))
 
             i += 1
         pos_y = Constant.SCREEN_HEIGHT / 30

@@ -162,13 +162,13 @@ class Player(pygame.sprite.Sprite):
             if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
                 target = (0, -1)
                 player_has_attacked = True
-                print('attack')
             if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
                 target = (0, 1)
                 player_has_attacked = True
-            interface.print_map(map, screen, self, game)
+
 
             if player_has_attacked:
+                self.actual_point -= 1
                 """attack_power = self.strength
                 for ids in self.equiped_stuff.items():
                     if ids.value != "":
@@ -182,7 +182,12 @@ class Player(pygame.sprite.Sprite):
                         object = game.item.get_item_id(ids.value)
                         target_def += object.const_mod"""
                 if self.strength_mod > target_caracter.const_mod:
-                    target_caracter.life -= self.strength_mod - target_caracter.const_mod
+                    length = len(game.player_list)
+                    for i in range(length):
+                        if game.player_list[i].name == target_caracter.name:
+                            game.player_list[i].life_mod -= self.strength_mod - game.player_list[i].const_mod
+                            print(game.player_list[i].life)
+            interface.print_map(map, screen, self, game)
 
 
 
