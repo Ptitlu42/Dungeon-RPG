@@ -32,7 +32,22 @@ class Interface():
             sprite_redim = pygame.transform.scale(sprite_floor, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
             screen.blit(sprite_redim, (cell[0], cell[1]))
 
-            self.check_case(player, map, screen, case.pos_x, case.pos_y)
+            """if case.deco != "":
+                sprite_deco = pygame.image.load(f"{Constant.DECO}{case.deco}")
+                sprite_redim = pygame.transform.scale(sprite_deco, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                screen.blit(sprite_redim, (cell[0], cell[1] - 10))"""
+
+        if player.action_move:
+            self.check_area(player.actual_point, player, map, screen)
+        if player.action_melee:
+            self.check_area(1, player, map, screen)
+        """if player.action_ranged:
+            if player.equiped_stuff[range] != "":
+                self.check_area(player.equiped_stuff[range], player, map, screen)"""
+
+        for case in map.actual_map:
+            cell_xy = (case.pos_x, case.pos_y)
+            cell = self.cell_xy_to_screen_xy(cell_xy)
 
             if case.deco != "":
                 sprite_deco = pygame.image.load(f"{Constant.DECO}{case.deco}")
@@ -41,10 +56,6 @@ class Interface():
 
             if case.occuped_by != "":
                 self.print_player(case.occuped_by, screen)
-
-        """for player_print in game.player_list:
-            self.print_player(player_print, screen)"""
-
         pygame.display.flip()
 
     def print_player(self, player, screen):
@@ -241,4 +252,51 @@ class Interface():
         elif pos == [player.pos_x, player.pos_y - 1]:
             player.player_can_go["up"] = True
 
+    def check_area(self, range_area, player, map, screen):
+        """
+        check cells in an area
+        :param range_area:
+        :param player:
+        :param map:
+        :param screen:
+        :return:
+        """
+        checked_cell = []
+        for x in range(0, range_area + 1, 1):
+            for y in range(0, (range_area + 1 - x), 1):
+                for xvar in [x, -x]:
+                    for yvar in [y, -y]:
+                        # list the cell
 
+                        cell_already_checked = False
+                        length = len(checked_cell)
+                        for i in range(0, length, 1):
+                            if checked_cell[i] == (xvar, yvar):
+                                cell_already_checked = True
+
+                        if not cell_already_checked:
+                            checked_cell.append((xvar, yvar))
+                            if 0 <= player.pos_x + xvar < map.cols and 0 <= player.pos_y + yvar < map.rows:
+                                cell = map.get_cell_by_xy(player.pos_x + xvar, player.pos_y + yvar)
+
+                                if player.action_move:
+                                    if cell.deco == "" and cell.occuped_by == "":
+                                        # print the accessible PNG on the tile
+                                        sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
+                                        sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
+                                                                                       (Constant.SPRITE_WIDTH,
+                                                                                        Constant.SPRITE_CARACTER_HEIGHT))
+                                        cell_pos = self.cell_xy_to_screen_xy((cell.pos_x, cell.pos_y))
+                                        screen.blit(sprite_bluecell_redim, cell_pos)
+                                        self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
+
+                                if player.action_melee or player.action_ranged:
+                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name:
+                                        # print the fightable PNG on the tile
+                                        sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
+                                        sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
+                                                                                      (Constant.SPRITE_WIDTH,
+                                                                                       Constant.SPRITE_CARACTER_HEIGHT))
+                                        cell_pos = self.cell_xy_to_screen_xy((cell.pos_x, cell.pos_y))
+                                        screen.blit(sprite_redcell_redim, cell_pos)
+                                        self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
