@@ -1,14 +1,7 @@
-# import pygame
-# from pygame.locals import *
-# from  settings import *
-# from Case import Tile
 import time
 import random
-
 import Constant
 import pygame
-import interface
-import map
 
 
 class Player(pygame.sprite.Sprite):
@@ -90,8 +83,9 @@ class Player(pygame.sprite.Sprite):
     def player_move(self, map, screen, interface, game):
         """
         print all accessible tiles around the player and move him on key press if able
+        :param game:
+        :param map:
         :param interface:
-        :param loaded_map:
         :param screen:
         :return:
         """
@@ -222,7 +216,8 @@ class Player(pygame.sprite.Sprite):
 
                 pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
                         (Constant.SPRITE_CARACTER_HEIGHT / 2) * (interface.ranged_target_list[i].pos_y + 1))) + \
-                        Constant.SPRITE_CARACTER_HEIGHT / 2.5 * interface.ranged_target_list[i].pos_x - interface.ranged_target_list[i].pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
+                        Constant.SPRITE_CARACTER_HEIGHT / 2.5 * interface.ranged_target_list[i].pos_x - \
+                        interface.ranged_target_list[i].pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
                         - Constant.SPRITE_HEIGHT / 3
                 screen.blit(paf_redim, (pos_x, pos_y))
                 pygame.display.flip()
@@ -231,6 +226,5 @@ class Player(pygame.sprite.Sprite):
                 hit_sound = pygame.mixer.Sound(hit)
                 hit_sound.play(0)
                 time.sleep(0.5)
-
 
         interface.print_map(map, screen, self, game)
