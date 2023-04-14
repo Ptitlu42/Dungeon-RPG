@@ -21,6 +21,23 @@ class Interface():
         background = pygame.image.load(f"{Constant.BG}scroll.png")
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
+
+        uparrow = pygame.image.load(f"{Constant.BG}uparrow.png")
+        uparrow_redim = pygame.transform.scale(uparrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
+        screen.blit(uparrow_redim, (8.3 * Constant.SCREEN_WIDTH / 10, Constant.SCREEN_HEIGHT / 10))
+
+        leftarrow = pygame.image.load(f"{Constant.BG}leftarrow.png")
+        leftarrow_redim = pygame.transform.scale(leftarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
+        screen.blit(leftarrow_redim, (4.8 * Constant.SCREEN_WIDTH / 10, Constant.SCREEN_HEIGHT / 10))
+
+        downarrow = pygame.image.load(f"{Constant.BG}downarrow.png")
+        downarrow_redim = pygame.transform.scale(downarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
+        screen.blit(downarrow_redim, (4.8 * Constant.SCREEN_WIDTH / 10, 4.5 * Constant.SCREEN_HEIGHT / 10))
+
+        rightarrow = pygame.image.load(f"{Constant.BG}rightarrow.png")
+        rightarrow_redim = pygame.transform.scale(rightarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
+        screen.blit(rightarrow_redim, (8.3 * Constant.SCREEN_WIDTH / 10, 4.5 * Constant.SCREEN_HEIGHT / 10))
+
         player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         self.print_action_menu(screen, player)
         self.print_stat(screen, player, game)

@@ -76,7 +76,6 @@ class Game():
                 player.is_active = True
                 turn_is_on = True
                 player.actual_point = player.action_point
-                print(player)
                 self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
                 while turn_is_on :
@@ -87,8 +86,6 @@ class Game():
                     left_click, center_click, right_click = (pygame.mouse.get_pressed())
                     # Attribute action
                     if left_click:
-                        print(self.interface.end_button_zone)
-                        print(mouse_x,"+",mouse_y)
                         # if click on move button
                         if self.interface.move_button_zone.collidepoint(mouse_x, mouse_y):
                             player.action_move = True
@@ -147,7 +144,6 @@ class Game():
     def stat_with_mods(self, equiped_stuff_list, player):
         n = len(equiped_stuff_list)
         for item in range(n):
-            print(equiped_stuff_list[item])
             if equiped_stuff_list[item]:
                 player.strength_mod += equiped_stuff_list[item].strength_mod
                 player.speed_mod += equiped_stuff_list[item].speed_mod
