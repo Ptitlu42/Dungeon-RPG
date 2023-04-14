@@ -3,6 +3,7 @@
 # from  settings import *
 # from Case import Tile
 import time
+import random
 
 import Constant
 import pygame
@@ -131,6 +132,9 @@ class Player(pygame.sprite.Sprite):
             player_s_cell.occuped_by = self
             self.player_can_go = {"left": False, "right": False, "up": False, "down": False}
             self.actual_point -= 1
+            footsteps = f"{Constant.FOOTSTEPS_SOUNDS}footsteps.mp3"
+            footsteps_sound = pygame.mixer.Sound(footsteps)
+            footsteps_sound.play(0)
             time.sleep(0.2)
 
     def player_melee(self, map, screen, interface, game):
@@ -170,7 +174,26 @@ class Player(pygame.sprite.Sprite):
                         if game.player_list[i].name == target_caracter.name:
                             game.player_list[i].life_mod -= self.strength_mod - game.player_list[i].const_mod
                             print(game.player_list[i].life)
+                interface.print_map(map, screen, self, game)
+                paf = pygame.image.load(f"{Constant.MISC}Paf.png")
+                paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
+                        Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
+
+                pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
+                            (Constant.SPRITE_CARACTER_HEIGHT / 2) * (target_caracter.pos_y + 1))) + \
+                        Constant.SPRITE_CARACTER_HEIGHT / 2.5 * target_caracter.pos_x - target_caracter.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
+                        - Constant.SPRITE_HEIGHT / 3
+                screen.blit(paf_redim, (pos_x, pos_y))
+                pygame.display.flip()
+                aleatoire = random.randint(1, 6)
+                hit = f"{Constant.HIT_SOUNDS}hit{aleatoire}.mp3"
+                hit_sound = pygame.mixer.Sound(hit)
+                hit_sound.play(0)
+                time.sleep(0.5)
+
             interface.print_map(map, screen, self, game)
+
 
 
 
