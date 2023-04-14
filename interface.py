@@ -22,22 +22,6 @@ class Interface():
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
 
-        uparrow = pygame.image.load(f"{Constant.BG}uparrow.png")
-        uparrow_redim = pygame.transform.scale(uparrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
-        screen.blit(uparrow_redim, (8.3 * Constant.SCREEN_WIDTH / 10, Constant.SCREEN_HEIGHT / 10))
-
-        leftarrow = pygame.image.load(f"{Constant.BG}leftarrow.png")
-        leftarrow_redim = pygame.transform.scale(leftarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
-        screen.blit(leftarrow_redim, (4.8 * Constant.SCREEN_WIDTH / 10, Constant.SCREEN_HEIGHT / 10))
-
-        downarrow = pygame.image.load(f"{Constant.BG}downarrow.png")
-        downarrow_redim = pygame.transform.scale(downarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
-        screen.blit(downarrow_redim, (4.8 * Constant.SCREEN_WIDTH / 10, 4.5 * Constant.SCREEN_HEIGHT / 10))
-
-        rightarrow = pygame.image.load(f"{Constant.BG}rightarrow.png")
-        rightarrow_redim = pygame.transform.scale(rightarrow, (2 * Constant.SPRITE_WIDTH, 2 * Constant.SPRITE_HEIGHT))
-        screen.blit(rightarrow_redim, (8.3 * Constant.SCREEN_WIDTH / 10, 4.5 * Constant.SCREEN_HEIGHT / 10))
-
         player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         self.print_action_menu(screen, player)
         self.print_stat(screen, player, game)
@@ -49,18 +33,15 @@ class Interface():
             sprite_redim = pygame.transform.scale(sprite_floor, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
             screen.blit(sprite_redim, (cell[0], cell[1]))
 
-            """if case.deco != "":
-                sprite_deco = pygame.image.load(f"{Constant.DECO}{case.deco}")
-                sprite_redim = pygame.transform.scale(sprite_deco, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                screen.blit(sprite_redim, (cell[0], cell[1] - 10))"""
-
         if player.action_move:
             self.check_area(player.actual_point, player, map, screen)
         if player.action_melee:
             self.check_area(1, player, map, screen)
-        """if player.action_ranged:
-            if player.equiped_stuff[range] != "":
-                self.check_area(player.equiped_stuff[range], player, map, screen)"""
+        if player.action_ranged:
+            for active_player in game.player_list:
+                if active_player.is_active:
+                    weapon = game.item.get_item_id(active_player.equiped_stuff["right hand"], game.item_list)
+                    self.check_area(weapon.range, player, map, screen)
 
         for case in map.actual_map:
             cell_xy = (case.pos_x, case.pos_y)

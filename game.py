@@ -8,6 +8,7 @@ import map
 import interface
 import item
 
+
 class Game():
 
     def __init__(self):
@@ -18,7 +19,6 @@ class Game():
         self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
 
-
         pygame.display.set_caption("POEC Fantasy")
 
         # map 3d iso instanciation
@@ -26,11 +26,13 @@ class Game():
 
         # Item creation
         self.item_list = []
-        self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0)
+        self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0, 1)
         self.item_list.append(self.item)
-        self.item = item.Item(2, True, "Magic Sword", "right hand", 1, 0, 2, 0, 0, 0)
+        self.item = item.Item(2, True, "Magic Sword", "right hand", 1, 0, 2, 0, 0, 0, 1)
         self.item_list.append(self.item)
-        self.item = item.Item(3, True, "Wooden Shield", "left hand", 0, 0, 0, 1, 0, 0)
+        self.item = item.Item(3, True, "Wooden Shield", "left hand", 0, 0, 0, 1, 0, 0, 0)
+        self.item_list.append(self.item)
+        self.item = item.Item(4, True, "Bow", "right hand", 0, 0, 0, 0, 0, 0, 4)
         self.item_list.append(self.item)
 
         # Player initialisation
@@ -44,28 +46,20 @@ class Game():
         player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
         player_s_cell.occuped_by = self.player
         self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 1},
-                                    f"{Constant.PLAYER_PATH}cat.png", 3, 4)
+                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
+                                     f"{Constant.PLAYER_PATH}cat.png", 3, 4)
         self.get_mod_from_player(self.player2)
         self.player_list.append(self.player2)
         player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         player2_s_cell.occuped_by = self.player2
 
-
-
-
-        print(self.player_list[0])
-
         length = len(self.player_list)
-        for j in range(length) :
-            for i in range (0, length-j-1) :
-                if self.player_list[i].speed < self.player_list[i+1].speed :
+        for j in range(length):
+            for i in range(0, length - j - 1):
+                if self.player_list[i].speed < self.player_list[i + 1].speed:
                     player_temp = self.player_list[i]
-                    self.player_list[i] = self.player_list[i+1]
+                    self.player_list[i] = self.player_list[i + 1]
                     self.player_list[i + 1] = player_temp
-
-        print(self.player_list[0])
-
 
     def turn(self):
 
@@ -78,7 +72,7 @@ class Game():
                 player.actual_point = player.action_point
                 self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
-                while turn_is_on :
+                while turn_is_on:
 
                     # Get mouse position
                     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -112,7 +106,7 @@ class Game():
                             self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
                             for player_print in self.player_list:
-                                self.interface.print_player(player_print, self.screen_map )
+                                self.interface.print_player(player_print, self.screen_map)
                     # self.handle_input()
                     if player.action_move:
                         player.player_move(self.loaded_map, self.screen_map, self.interface, self)
@@ -155,8 +149,7 @@ class Game():
         self.stuff_list = self.get_items_from_ids_list(self.id_list)
         self.stat_with_mods(self.stuff_list, player)
 
-
-    def handle_input(self): # get the pressed key
+    def handle_input(self):  # get the pressed key
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_UP]:
@@ -167,7 +160,6 @@ class Game():
             self.player.pos_x -= 1
         elif pressed[pygame.K_RIGHT]:
             self.player.pos_x += 1
-
 
     def run(self):
 

@@ -12,7 +12,8 @@ import map
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, name, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x, pos_y):
+    def __init__(self, name, strength, life, speed, const, action_point, inventory, equiped_stuff, sprite, pos_x,
+                 pos_y):
         super().__init__()
         self.name = name
         self.stuff_list = None
@@ -48,10 +49,6 @@ class Player(pygame.sprite.Sprite):
         self.end_turn = False
         self.last_action = ""
         self.is_active = False
-        
-        
-        
-
 
     def __str__(self):
         return str(self.speed)
@@ -63,32 +60,32 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.topleft = [self.pos_x * Constant.SPRITE_WIDTH, self.pos_y * Constant.SPRITE_HEIGHT]
-    
+
     def get_id_equiped_from_player(self, player) -> list:
         equiped_ids_stuff_list = []
         for ids in player.equiped_stuff.items():
             if ids[1] != "":
                 equiped_ids_stuff_list.append(ids[1])
         return equiped_ids_stuff_list
-    
+
     def get_items_from_ids_list(self, list, game) -> list:
         equiped_stuff_list = []
         for id_item in list:
             equiped_stuff_list.append(game.item.get_item_id(id_item, game.item_list))
         return equiped_stuff_list
-            
+
     def stat_with_mods(self, equiped_stuff_list):
         for item in equiped_stuff_list:
             self.strength.mod += item.strength_mod
             self.speed.mod += item.speed_mod
             self.const_mod += item.const_mod
             self.life_mod += item.life_mod
-        
+
     def get_mod_from_player(self, game):
         self.id_list = self.get_id_equiped_from_player(self)
         self.stuff_list = self.get_items_from_ids_list(self.id_list, game)
         self.stat_with_mods(self.stuff_list)
-        
+
     # Coyotte move function
     def player_move(self, map, screen, interface, game):
         """
@@ -106,7 +103,6 @@ class Player(pygame.sprite.Sprite):
 
             # accessible cells printing
             if self.actual_point > 0:
-
                 self.last_x = self.pos_x
                 self.last_y = self.pos_y
 
@@ -163,7 +159,6 @@ class Player(pygame.sprite.Sprite):
                 target = (0, 1)
                 player_has_attacked = True
 
-
             if player_has_attacked:
                 self.actual_point -= 1
                 target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
@@ -173,15 +168,15 @@ class Player(pygame.sprite.Sprite):
                     for i in range(length):
                         if game.player_list[i].name == target_caracter.name:
                             game.player_list[i].life_mod -= self.strength_mod - game.player_list[i].const_mod
-                            print(game.player_list[i].life)
                 interface.print_map(map, screen, self, game)
-                paf = pygame.image.load(f"{Constant.MISC}Paf.png")
+                paf = pygame.image.load(f"{Constant.MISC}paf.png")
                 paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
+                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
+                            (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
                         Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
 
                 pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
-                            (Constant.SPRITE_CARACTER_HEIGHT / 2) * (target_caracter.pos_y + 1))) + \
+                        (Constant.SPRITE_CARACTER_HEIGHT / 2) * (target_caracter.pos_y + 1))) + \
                         Constant.SPRITE_CARACTER_HEIGHT / 2.5 * target_caracter.pos_x - target_caracter.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
                         - Constant.SPRITE_HEIGHT / 3
                 screen.blit(paf_redim, (pos_x, pos_y))
@@ -194,10 +189,6 @@ class Player(pygame.sprite.Sprite):
 
             interface.print_map(map, screen, self, game)
 
-
-
-
-                            
     def player_ranged(self, map, screen, interface, game):
         """
         player make a ranged attack
@@ -216,3 +207,5 @@ class Player(pygame.sprite.Sprite):
         interface.print_map(map, screen, self, game)
 
         self.last_action = "ranged"
+
+        interface.print_map(map, screen, self, game)
