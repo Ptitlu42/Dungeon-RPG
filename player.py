@@ -172,7 +172,7 @@ class Player(pygame.sprite.Sprite):
                 paf = pygame.image.load(f"{Constant.MISC}paf.png")
                 paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
                 pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
-                            (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
+                        (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
                         Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
 
                 pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
@@ -207,5 +207,30 @@ class Player(pygame.sprite.Sprite):
         interface.print_map(map, screen, self, game)
 
         self.last_action = "ranged"
+        weapon = game.item.get_item_id(self.equiped_stuff["right hand"], game.item_list)
+        keys = pygame.key.get_pressed()
+        for i, target in enumerate(interface.ranged_target_list):
+            # Vérifier si la touche correspondante est enfoncée
+            if keys[pygame.K_0 + i] and target is not None:
+                target.life_mod -= weapon.ranged_damage
+                self.actual_point -= 1
+                arrow = pygame.image.load(f"{Constant.MISC}arrow.png")
+                paf_redim = pygame.transform.scale(arrow, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
+                        (Constant.SPRITE_WIDTH / 2) * (interface.ranged_target_list[i].pos_x + 1))) - \
+                        Constant.SPRITE_WIDTH / 2 * interface.ranged_target_list[i].pos_y
+
+                pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
+                        (Constant.SPRITE_CARACTER_HEIGHT / 2) * (interface.ranged_target_list[i].pos_y + 1))) + \
+                        Constant.SPRITE_CARACTER_HEIGHT / 2.5 * interface.ranged_target_list[i].pos_x - interface.ranged_target_list[i].pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
+                        - Constant.SPRITE_HEIGHT / 3
+                screen.blit(paf_redim, (pos_x, pos_y))
+                pygame.display.flip()
+                aleatoire = random.randint(1, 6)
+                hit = f"{Constant.ARROW_SOUNDS}arrow{aleatoire}.mp3"
+                hit_sound = pygame.mixer.Sound(hit)
+                hit_sound.play(0)
+                time.sleep(0.5)
+
 
         interface.print_map(map, screen, self, game)

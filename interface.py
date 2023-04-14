@@ -9,6 +9,7 @@ class Interface():
         self.melee_button_zone = ""
         self.ranged_button_zone = ""
         self.end_button_zone = ""
+        self.ranged_target_list = []
 
     def print_map(self, map, screen, player, game):
         '''
@@ -33,6 +34,7 @@ class Interface():
             sprite_redim = pygame.transform.scale(sprite_floor, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
             screen.blit(sprite_redim, (cell[0], cell[1]))
 
+        self.ranged_target_list = []
         if player.action_move:
             self.check_area(player.actual_point, player, map, screen)
         if player.action_melee:
@@ -187,7 +189,7 @@ class Interface():
                                                    Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
-    def check_case(self, player, map, screen, case_pos_x, case_pos_y):
+    '''def check_case(self, player, map, screen, case_pos_x, case_pos_y):
         """
         verify if the cells are available
         :param player:
@@ -231,7 +233,7 @@ class Interface():
                             self.set_player_can_move(player, pos)
 
                     if player.action_ranged:
-                        pass
+                        pass'''
 
     def set_player_can_move(self, player, pos):
         """
@@ -260,6 +262,7 @@ class Interface():
         :return:
         """
         checked_cell = []
+        ranged_target_list = []
         for x in range(0, range_area + 1, 1):
             for y in range(0, (range_area + 1 - x), 1):
                 for xvar in [x, -x]:
@@ -288,7 +291,7 @@ class Interface():
                                         screen.blit(sprite_bluecell_redim, cell_pos)
                                         self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
 
-                                if player.action_melee or player.action_ranged:
+                                if player.action_melee:
                                     if cell.occuped_by != "" and cell.occuped_by.name != player.name:
                                         # print the fightable PNG on the tile
                                         sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
@@ -298,3 +301,20 @@ class Interface():
                                         cell_pos = self.cell_xy_to_screen_xy((cell.pos_x, cell.pos_y))
                                         screen.blit(sprite_redcell_redim, cell_pos)
                                         self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
+
+                                if player.action_ranged:
+                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name:
+                                        # print the fightable PNG on the tile
+                                        sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
+                                        sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
+                                                                                      (Constant.SPRITE_WIDTH,
+                                                                                       Constant.SPRITE_CARACTER_HEIGHT))
+                                        cell_pos = self.cell_xy_to_screen_xy((cell.pos_x, cell.pos_y))
+                                        screen.blit(sprite_redcell_redim, cell_pos)
+                                        self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
+                                        self.ranged_target_list.append(cell.occuped_by)
+                                        police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 20)
+                                        target_number = police.render(str(len(self.ranged_target_list) - 1), True, Constant.BLACK)
+                                        screen.blit(target_number, (cell_pos[0] + Constant.SPRITE_WIDTH / 2, cell_pos[1] + Constant.SPRITE_HEIGHT / 2))
+
+

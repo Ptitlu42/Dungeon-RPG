@@ -26,13 +26,13 @@ class Game():
 
         # Item creation
         self.item_list = []
-        self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0, 1)
+        self.item = item.Item(1, True, "Axe", "right hand", 2, 0, 0, 0, 0, 0, 1, 0)
         self.item_list.append(self.item)
-        self.item = item.Item(2, True, "Magic Sword", "right hand", 1, 0, 2, 0, 0, 0, 1)
+        self.item = item.Item(2, True, "Magic Sword", "right hand", 1, 0, 2, 0, 0, 0, 1, 0)
         self.item_list.append(self.item)
-        self.item = item.Item(3, True, "Wooden Shield", "left hand", 0, 0, 0, 1, 0, 0, 0)
+        self.item = item.Item(3, True, "Wooden Shield", "left hand", 0, 0, 0, 1, 0, 0, 0, 0)
         self.item_list.append(self.item)
-        self.item = item.Item(4, True, "Bow", "right hand", 0, 0, 0, 0, 0, 0, 4)
+        self.item = item.Item(4, True, "Bow", "right hand", 0, 0, 0, 0, 0, 0, 4, 1)
         self.item_list.append(self.item)
 
         # Player initialisation
@@ -48,6 +48,13 @@ class Game():
         self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                      {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
                                      f"{Constant.PLAYER_PATH}cat.png", 3, 4)
+        self.get_mod_from_player(self.player2)
+        self.player_list.append(self.player2)
+        player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
+        player2_s_cell.occuped_by = self.player2
+        self.player2 = player.Player("Pingu", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
+                                     f"{Constant.PLAYER_PATH}pingu.png", 6, 6)
         self.get_mod_from_player(self.player2)
         self.player_list.append(self.player2)
         player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
