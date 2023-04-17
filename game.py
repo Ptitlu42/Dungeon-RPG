@@ -38,7 +38,7 @@ class Game():
         # Player initialisation
         self.player_list = []
         player_temp = None
-        self.player = player.Player("Owlet", 5, 50, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player = player.Player("Owlet", 5, 2, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         self.get_mod_from_player(self.player)
@@ -74,58 +74,59 @@ class Game():
         running = True
         while running:
             for player in self.player_list:
-                player.is_active = True
-                turn_is_on = True
-                player.actual_point = player.action_point
-                self.interface.print_map(self.loaded_map, self.screen_map, player, self)
+                if player.life_mod > 0:
+                    player.is_active = True
+                    turn_is_on = True
+                    player.actual_point = player.action_point
+                    self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
-                while turn_is_on:
+                    while turn_is_on:
 
-                    # Get mouse position
-                    mouse_x, mouse_y = pygame.mouse.get_pos()
-                    # Get mouse click
-                    left_click, center_click, right_click = (pygame.mouse.get_pressed())
-                    # Attribute action
-                    if left_click:
-                        # if click on move button
-                        if self.interface.move_button_zone.collidepoint(mouse_x, mouse_y):
-                            player.action_move = True
-                            player.action_melee = False
-                            player.action_ranged = False
-                        # if click on melee button
-                        if self.interface.melee_button_zone.collidepoint(mouse_x, mouse_y):
-                            player.action_move = False
-                            player.action_melee = True
-                            player.action_ranged = False
-                        # if click on ranged button
-                        if self.interface.ranged_button_zone.collidepoint(mouse_x, mouse_y):
-                            player.action_move = False
-                            player.action_melee = False
-                            player.action_ranged = True
-                        # if click on end button
-                        if self.interface.end_button_zone.collidepoint(mouse_x, mouse_y):
-                            player.action_move = False
-                            player.action_melee = False
-                            player.action_ranged = False
-                            player.is_active = False
-                            turn_is_on = False
-                            time.sleep(0.2)
-                            self.interface.print_map(self.loaded_map, self.screen_map, player, self)
+                        # Get mouse position
+                        mouse_x, mouse_y = pygame.mouse.get_pos()
+                        # Get mouse click
+                        left_click, center_click, right_click = (pygame.mouse.get_pressed())
+                        # Attribute action
+                        if left_click:
+                            # if click on move button
+                            if self.interface.move_button_zone.collidepoint(mouse_x, mouse_y):
+                                player.action_move = True
+                                player.action_melee = False
+                                player.action_ranged = False
+                            # if click on melee button
+                            if self.interface.melee_button_zone.collidepoint(mouse_x, mouse_y):
+                                player.action_move = False
+                                player.action_melee = True
+                                player.action_ranged = False
+                            # if click on ranged button
+                            if self.interface.ranged_button_zone.collidepoint(mouse_x, mouse_y):
+                                player.action_move = False
+                                player.action_melee = False
+                                player.action_ranged = True
+                            # if click on end button
+                            if self.interface.end_button_zone.collidepoint(mouse_x, mouse_y):
+                                player.action_move = False
+                                player.action_melee = False
+                                player.action_ranged = False
+                                player.is_active = False
+                                turn_is_on = False
+                                time.sleep(0.2)
+                                self.interface.print_map(self.loaded_map, self.screen_map, player, self)
 
-                            for player_print in self.player_list:
-                                self.interface.print_player(player_print, self.screen_map)
-                    # self.handle_input()
-                    if player.action_move:
-                        player.player_move(self.loaded_map, self.screen_map, self.interface, self)
-                    if player.action_melee:
-                        player.player_melee(self.loaded_map, self.screen_map, self.interface, self)
-                    if player.action_ranged:
-                        player.player_ranged(self.loaded_map, self.screen_map, self.interface, self)
+                                for player_print in self.player_list:
+                                    self.interface.print_player(player_print, self.screen_map)
+                        # self.handle_input()
+                        if player.action_move:
+                            player.player_move(self.loaded_map, self.screen_map, self.interface, self)
+                        if player.action_melee:
+                            player.player_melee(self.loaded_map, self.screen_map, self.interface, self)
+                        if player.action_ranged:
+                            player.player_ranged(self.loaded_map, self.screen_map, self.interface, self)
 
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            running = False
-                            pygame.quit()
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                running = False
+                                pygame.quit()
 
     def get_id_equiped_from_player(self, player) -> list:
         equiped_ids_stuff_list = []

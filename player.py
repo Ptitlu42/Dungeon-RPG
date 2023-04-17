@@ -42,6 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.end_turn = False
         self.last_action = ""
         self.is_active = False
+        self.tombstone = f"{Constant.MISC}tombstone.png"
 
     def __str__(self):
         return str(self.speed)
