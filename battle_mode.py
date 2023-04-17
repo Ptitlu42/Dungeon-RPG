@@ -7,14 +7,16 @@ import map
 import pygame
 import interface
 
+
 class Battle_mode:
     def __init__(self):
+        self.main_button_zone = None
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
         self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
 
-    # map 3d iso instanciation
+        # map 3d iso instanciation
         self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls")
 
         # Item creation
@@ -31,7 +33,7 @@ class Battle_mode:
         # Player initialisation
         self.player_list = []
         player_temp = None
-        self.player = player.Player("Owlet", 5, 2, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player = player.Player("Owlet", 5, 1, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
                                     f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
         self.get_mod_from_player(self.player)
@@ -45,7 +47,7 @@ class Battle_mode:
         self.player_list.append(self.player2)
         player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         player2_s_cell.occuped_by = self.player2
-        self.player2 = player.Player("Pingu", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player2 = player.Player("Pingu", 5, 1, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                      {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
                                      f"{Constant.PLAYER_PATH}pingu.png", 6, 6)
         self.get_mod_from_player(self.player2)
@@ -61,12 +63,49 @@ class Battle_mode:
                     self.player_list[i] = self.player_list[i + 1]
                     self.player_list[i + 1] = player_temp
 
+    def victory(self):
+        victory = pygame.image.load(f"{Constant.BUTTONS}victory.png")
+        victory_redim = pygame.transform.scale(victory,
+                                               (Constant.SCREEN_WIDTH - 2, Constant.SCREEN_HEIGHT / 4))
+        self.screen_map.blit(victory_redim,
+                             (Constant.SCREEN_WIDTH / 2 - victory_redim.get_width() / 2, Constant.SCREEN_HEIGHT / 4))
+
+        for players in self.player_list:
+            if players.is_active:
+                police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
+                txt_name = police.render((players.name), True, Constant.BLACK)
+                self.screen_map.blit(txt_name, (Constant.SCREEN_WIDTH / 2, Constant.SCREEN_HEIGHT / 2))
+
+        main = pygame.image.load(f"{Constant.BUTTONS}main_menu.png")
+        main_redim = pygame.transform.scale(main,
+                                            (Constant.SCREEN_WIDTH / 3, Constant.SCREEN_HEIGHT / 4))
+        self.screen_map.blit(main_redim,
+                             (Constant.SCREEN_WIDTH / 2 - main_redim.get_width() / 2, 3 * Constant.SCREEN_HEIGHT / 4))
+        self.main_button_zone = pygame.Rect(Constant.SCREEN_WIDTH / 2 - main_redim.get_width() / 2,
+                                            3 * Constant.SCREEN_HEIGHT / 4, Constant.SCREEN_WIDTH / 3,
+                                            Constant.SCREEN_HEIGHT / 4)
+
+        pygame.display.flip()
+        waiting = True
+
+        time.sleep(5)
+        """while waiting:
+            mouse_x, mouse_y = (0, 0)
+            left_click, center_click, right_click = (pygame.mouse.get_pressed())
+            if left_click:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if self.main_button_zone.collidepoint(mouse_x, mouse_y):
+                    print("in return")
+                    waiting = False"""
+        return None
+
     def turn(self):
 
         # game loop
         running = True
         while running:
             for player in self.player_list:
+
                 if player.life_mod > 0:
                     player.is_active = True
                     turn_is_on = True
@@ -115,6 +154,14 @@ class Battle_mode:
                             player.player_melee(self.loaded_map, self.screen_map, self.interface, self)
                         if player.action_ranged:
                             player.player_ranged(self.loaded_map, self.screen_map, self.interface, self)
+
+                        dead_player = []
+                        for players in self.player_list:
+                            if players.life_mod <= 0:
+                                dead_player.append(players)
+                        if len(dead_player) == (len(self.player_list) - 1):
+                            #self.victory()
+                            return None
 
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:

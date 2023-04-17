@@ -15,11 +15,12 @@ class Game():
     def __init__(self):
 
         # Creating Window
+        self.battle_mode = None
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
         self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
-        self.battle_mode = battle_mode.Battle_mode()
+        
 
         pygame.display.set_caption("POEC Fantasy")
 
@@ -27,6 +28,7 @@ class Game():
     def run(self):
 
         while True:
+            self.screen_map.fill(Constant.BLACK)
             # Affichage de la map
             test_button = pygame.image.load(f"{Constant.BUTTONS}test.png")
             test_button_redim = pygame.transform.scale(test_button,
@@ -49,11 +51,14 @@ class Game():
             pygame.display.flip()
 
 
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (self.quit_button_zone.collidepoint(mouse_x, mouse_y) and left_click):
                     running = False
                     pygame.quit()
 
                 if self.test_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
+                    self.battle_mode = battle_mode.Battle_mode()
                     self.battle_mode.turn()
+                    self.battle_mode.victory()
+                    # del self.battle_mode
+                    print("del ok")
