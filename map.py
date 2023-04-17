@@ -24,10 +24,7 @@ class Map():
                 elements = cell_value.split(",")
 
                 self.case = Case.Case(j, i, elements[0], elements[1], elements[2], elements[3])
-                # print(case.__repr__())
-                # print(f"print {case}")
                 self.actual_map.append(self.case)
-        print(self.actual_map)
 
     def get_cell_by_xy(self, x, y):
         id = x + self.cols * y

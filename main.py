@@ -13,6 +13,7 @@ import game
 if __name__ == '__main__':
     # Pygame initialisation
     pygame.init()
+    pygame.mixer.init()
 
     game = game.Game()
     print(game.loaded_map.actual_map)
