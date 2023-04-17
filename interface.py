@@ -65,12 +65,13 @@ class Interface():
         :param screen:
         :return:
         '''
-        pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (player.pos_x + 1))) - \
+        """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (player.pos_x + 1))) - \
                 Constant.SPRITE_WIDTH / 2 * player.pos_y
 
         pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + ((Constant.SPRITE_CARACTER_HEIGHT / 2) * (player.pos_y + 1))) + \
                 Constant.SPRITE_CARACTER_HEIGHT / 2.5 * player.pos_x - player.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
-                - Constant.SPRITE_HEIGHT / 3
+                - Constant.SPRITE_HEIGHT / 3"""
+        coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y))
         sprite_player = pygame.image.load(player.sprite)
         sprite_player_redim = pygame.transform.scale(sprite_player,
                                                      (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
@@ -79,8 +80,8 @@ class Interface():
             halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
             halo_player_redim = pygame.transform.scale(halo_player,
                                                        (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
-            screen.blit(halo_player_redim, (pos_x, pos_y))
-        screen.blit(sprite_player_redim, (pos_x, pos_y - 10))
+            screen.blit(halo_player_redim, (coord[0] + 2, coord[1] - 20))
+        screen.blit(sprite_player_redim, (coord[0] + 2, coord[1] - 30))
 
     def cell_xy_to_screen_xy(self, coord):
         """

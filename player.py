@@ -157,28 +157,42 @@ class Player(pygame.sprite.Sprite):
                 self.actual_point -= 1
                 target_cell = map.get_cell_by_xy(self.pos_x + target[0], self.pos_y + target[1])
                 target_caracter = target_cell.occuped_by
-                if self.strength_mod > target_caracter.const_mod:
+                alea_att = random.randint(1, 6)
+                alea_def = random.randint(1, 6)
+                if self.strength_mod + alea_att > target_caracter.const_mod + alea_def:
                     length = len(game.player_list)
                     for i in range(length):
                         if game.player_list[i].name == target_caracter.name:
-                            game.player_list[i].life_mod -= self.strength_mod - game.player_list[i].const_mod
-                interface.print_map(map, screen, self, game)
-                paf = pygame.image.load(f"{Constant.MISC}paf.png")
-                paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
-                        (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
-                        Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
+                            game.player_list[i].life_mod -= (self.strength_mod + alea_att) - (game.player_list[i].const_mod + alea_def)
+                    interface.print_map(map, screen, self, game)
+                    paf = pygame.image.load(f"{Constant.MISC}paf.png")
+                    paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y))
+                    """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
+                            (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
+                            Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
 
-                pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
-                        (Constant.SPRITE_CARACTER_HEIGHT / 2) * (target_caracter.pos_y + 1))) + \
-                        Constant.SPRITE_CARACTER_HEIGHT / 2.5 * target_caracter.pos_x - target_caracter.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
-                        - Constant.SPRITE_HEIGHT / 3
-                screen.blit(paf_redim, (pos_x, pos_y))
-                pygame.display.flip()
-                aleatoire = random.randint(1, 6)
-                hit = f"{Constant.HIT_SOUNDS}hit{aleatoire}.mp3"
-                hit_sound = pygame.mixer.Sound(hit)
-                hit_sound.play(0)
+                    pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + (
+                            (Constant.SPRITE_CARACTER_HEIGHT / 2) * (target_caracter.pos_y + 1))) + \
+                            Constant.SPRITE_CARACTER_HEIGHT / 2.5 * target_caracter.pos_x - target_caracter.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
+                            - Constant.SPRITE_HEIGHT / 3"""
+                    screen.blit(paf_redim, (pos[0], pos[1]))
+                    pygame.display.flip()
+                    aleatoire = random.randint(1, 6)
+                    hit = f"{Constant.HIT_SOUNDS}hit{aleatoire}.mp3"
+                    hit_sound = pygame.mixer.Sound(hit)
+                    hit_sound.play(0)
+                else :
+                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y))
+                    miss = pygame.image.load(f"{Constant.MISC}miss.png")
+                    miss_redim = pygame.transform.scale(miss, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                    screen.blit(miss_redim, (pos[0], pos[1]))
+                    pygame.display.flip()
+                    aleatoire = random.randint(1, 6)
+                    swing = f"{Constant.SWING_SOUNDS}swing-{aleatoire}.mp3"
+                    swing_sound = pygame.mixer.Sound(swing)
+                    swing_sound.play(0)
+
                 time.sleep(0.5)
 
             interface.print_map(map, screen, self, game)
