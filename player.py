@@ -42,9 +42,10 @@ class Player(pygame.sprite.Sprite):
         self.end_turn = False
         self.last_action = ""
         self.is_active = False
+        self.tombstone = f"{Constant.MISC}tombstone.png"
 
     def __str__(self):
-        return str(self.speed)
+        return str(self.name)
 
     def get_image(self, x, y):
         image = pygame.Surface([Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT])
@@ -101,17 +102,20 @@ class Player(pygame.sprite.Sprite):
                 self.last_y = self.pos_y
 
         # applying the movement to the player
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        left_click, center_click, right_click = (pygame.mouse.get_pressed())
+
         player_has_moved = False
-        if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
+        if (pygame.key.get_pressed()[pygame.K_LEFT] or (interface.left_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["left"]:
             self.pos_x -= 1
             player_has_moved = True
-        if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
+        if (pygame.key.get_pressed()[pygame.K_RIGHT] or (interface.right_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["right"]:
             self.pos_x += 1
             player_has_moved = True
-        if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
+        if (pygame.key.get_pressed()[pygame.K_UP] or (interface.up_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["up"]:
             self.pos_y -= 1
             player_has_moved = True
-        if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
+        if (pygame.key.get_pressed()[pygame.K_DOWN] or (interface.down_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["down"]:
             self.pos_y += 1
             player_has_moved = True
 
@@ -139,17 +143,20 @@ class Player(pygame.sprite.Sprite):
         self.last_action = "melee"
         player_has_attacked, target = False, False
 
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        left_click, center_click, right_click = (pygame.mouse.get_pressed())
+
         if self.actual_point > 0:
-            if pygame.key.get_pressed()[pygame.K_LEFT] and self.player_can_go["left"]:
+            if (pygame.key.get_pressed()[pygame.K_LEFT] or (interface.left_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["left"]:
                 target = (-1, 0)
                 player_has_attacked = True
-            if pygame.key.get_pressed()[pygame.K_RIGHT] and self.player_can_go["right"]:
+            if (pygame.key.get_pressed()[pygame.K_RIGHT] or (interface.right_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["right"]:
                 target = (1, 0)
                 player_has_attacked = True
-            if pygame.key.get_pressed()[pygame.K_UP] and self.player_can_go["up"]:
+            if (pygame.key.get_pressed()[pygame.K_UP] or (interface.up_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["up"]:
                 target = (0, -1)
                 player_has_attacked = True
-            if pygame.key.get_pressed()[pygame.K_DOWN] and self.player_can_go["down"]:
+            if (pygame.key.get_pressed()[pygame.K_DOWN] or (interface.down_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["down"]:
                 target = (0, 1)
                 player_has_attacked = True
 

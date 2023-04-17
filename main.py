@@ -16,5 +16,4 @@ if __name__ == '__main__':
     pygame.mixer.init()
 
     game = game.Game()
-    print(game.loaded_map.actual_map)
     game.run()
