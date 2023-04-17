@@ -10,6 +10,10 @@ class Interface():
         self.ranged_button_zone = ""
         self.end_button_zone = ""
         self.ranged_target_list = []
+        self.up_button_zone = ""
+        self.down_button_zone = ""
+        self.left_button_zone = ""
+        self.right_button_zone = ""
 
     def print_map(self, map, screen, player, game):
         '''
@@ -18,10 +22,51 @@ class Interface():
         :param screen:
         :return:
         '''
+        # background
         screen.fill(Constant.BLACK)
         background = pygame.image.load(f"{Constant.BG}scroll.png")
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
+
+        # arrows
+        arrow_up = pygame.image.load(f"{Constant.BUTTONS}arrow_up.png")
+        arrow_up_redim = pygame.transform.scale(arrow_up, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_up_redim, (Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05))
+        self.up_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05, Constant.SPRITE_WIDTH,
+                                             Constant.SPRITE_HEIGHT)
+
+        arrow_left = pygame.image.load(f"{Constant.BUTTONS}arrow_left.png")
+        arrow_left_redim = pygame.transform.scale(arrow_left, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_left_redim, (Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05))
+        self.left_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05,
+                                          Constant.SPRITE_WIDTH,
+                                          Constant.SPRITE_HEIGHT)
+
+        arrow_right = pygame.image.load(f"{Constant.BUTTONS}arrow_right.png")
+        arrow_right_redim = pygame.transform.scale(arrow_right, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_right_redim,
+                    (Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT))
+        self.right_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9,
+                                            Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT,
+                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT + Constant.SPRITE_HEIGHT)
+
+        arrow_down = pygame.image.load(f"{Constant.BUTTONS}arrow_down.png")
+        arrow_down_redim = pygame.transform.scale(arrow_down, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_down_redim,
+                    (Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH,
+                     Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT))
+        self.down_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05,
+                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT + Constant.SPRITE_HEIGHT)
+
+        for active_player in game.player_list:
+
+            if active_player.is_active:
+                coord = (Constant.SCREEN_WIDTH * 0.9 - Constant.SPRITE_WIDTH / 2,
+                                                   Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT / 2)
+                sprite_player = pygame.image.load(active_player.sprite)
+                sprite_player_redim = pygame.transform.scale(sprite_player,
+                                                             (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                screen.blit(sprite_player_redim, coord)
 
         player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         self.print_action_menu(screen, player)
