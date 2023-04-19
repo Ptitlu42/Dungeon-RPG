@@ -29,20 +29,27 @@ class Game():
 
         while True:
             self.screen_map.fill(Constant.BLACK)
-            # Affichage de la map
+            title = pygame.image.load(f"{Constant.TITLE}title.png")
+            title_redim = pygame.transform.scale(title,
+                                                       (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
+            self.screen_map.blit(title_redim, (0, 0))
             test_button = pygame.image.load(f"{Constant.BUTTONS}test.png")
             test_button_redim = pygame.transform.scale(test_button,
-                                                         (Constant.SCREEN_WIDTH - 2, Constant.SCREEN_HEIGHT / 2 - 2))
-            self.screen_map.blit(test_button_redim, (1, 1))
-            self.test_button_zone = pygame.Rect(1, 1, Constant.SCREEN_WIDTH - 2,
-                                                 Constant.SCREEN_HEIGHT / 2 - 2)
+                                                         (Constant.SCREEN_WIDTH / 5, Constant.SCREEN_HEIGHT / 10))
+            self.screen_map.blit(test_button_redim, (Constant.SCREEN_WIDTH / 2 - test_button_redim.get_width() / 2,
+                                                     Constant.SCREEN_HEIGHT * 2 / 3))
+            self.test_button_zone = pygame.Rect(Constant.SCREEN_WIDTH / 2 - test_button_redim.get_width() / 2,
+                                                Constant.SCREEN_HEIGHT * 2 / 3,
+                                                Constant.SCREEN_WIDTH / 5, Constant.SCREEN_HEIGHT / 10)
 
             quit_button = pygame.image.load(f"{Constant.BUTTONS}quit.png")
             quit_button_redim = pygame.transform.scale(quit_button,
-                                                       (Constant.SCREEN_WIDTH - 2, Constant.SCREEN_HEIGHT / 2 - 2))
-            self.screen_map.blit(quit_button_redim, (1, 1 + Constant.SCREEN_HEIGHT / 2))
-            self.quit_button_zone = pygame.Rect(1, 1  + Constant.SCREEN_HEIGHT / 2, Constant.SCREEN_WIDTH - 2,
-                                                Constant.SCREEN_HEIGHT / 2 - 2)
+                                                       (Constant.SCREEN_WIDTH / 5, Constant.SCREEN_HEIGHT / 10))
+            self.screen_map.blit(quit_button_redim, (Constant.SCREEN_WIDTH / 2 - test_button_redim.get_width() / 2,
+                                                     Constant.SCREEN_HEIGHT * 2 / 3 + 1.5 * quit_button_redim.get_height()))
+            self.quit_button_zone = pygame.Rect(Constant.SCREEN_WIDTH / 2 - test_button_redim.get_width() / 2,
+                                                     Constant.SCREEN_HEIGHT * 2 / 3 + 1.5 * quit_button_redim.get_height(),
+                                                Constant.SCREEN_WIDTH / 5, Constant.SCREEN_HEIGHT / 10)
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             left_click, center_click, right_click = (pygame.mouse.get_pressed())
