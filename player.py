@@ -109,6 +109,7 @@ class Player(pygame.sprite.Sprite):
         if (pygame.key.get_pressed()[pygame.K_LEFT] or (interface.left_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["left"]:
             self.pos_x -= 1
             player_has_moved = True
+            print("left")
         if (pygame.key.get_pressed()[pygame.K_RIGHT] or (interface.right_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["right"]:
             self.pos_x += 1
             player_has_moved = True
@@ -118,6 +119,7 @@ class Player(pygame.sprite.Sprite):
         if (pygame.key.get_pressed()[pygame.K_DOWN] or (interface.down_button_zone.collidepoint(mouse_x, mouse_y) and left_click)) and self.player_can_go["down"]:
             self.pos_y += 1
             player_has_moved = True
+            print("down")
 
         if player_has_moved:
             player_s_cell = map.get_cell_by_xy(self.last_x, self.last_y)
