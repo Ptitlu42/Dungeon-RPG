@@ -176,7 +176,7 @@ class Player(pygame.sprite.Sprite):
                     interface.print_map(map, screen, self, game)
                     paf = pygame.image.load(f"{Constant.MISC}paf.png")
                     paf_redim = pygame.transform.scale(paf, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y))
+                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y), self)
                     """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
                             (Constant.SPRITE_WIDTH / 2) * (target_caracter.pos_x + 1))) - \
                             Constant.SPRITE_WIDTH / 2 * target_caracter.pos_y
@@ -192,7 +192,7 @@ class Player(pygame.sprite.Sprite):
                     hit_sound = pygame.mixer.Sound(hit)
                     hit_sound.play(0)
                 else :
-                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y))
+                    pos = interface.cell_xy_to_screen_xy((target_caracter.pos_x, target_caracter.pos_y), self)
                     miss = pygame.image.load(f"{Constant.MISC}miss.png")
                     miss_redim = pygame.transform.scale(miss, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
                     screen.blit(miss_redim, (pos[0], pos[1]))
@@ -233,7 +233,7 @@ class Player(pygame.sprite.Sprite):
                 self.actual_point -= 1
                 arrow = pygame.image.load(f"{Constant.MISC}arrow.png")
                 paf_redim = pygame.transform.scale(arrow, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
+                """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + (
                         (Constant.SPRITE_WIDTH / 2) * (interface.ranged_target_list[i].pos_x + 1))) - \
                         Constant.SPRITE_WIDTH / 2 * interface.ranged_target_list[i].pos_y
 
@@ -241,7 +241,13 @@ class Player(pygame.sprite.Sprite):
                         (Constant.SPRITE_CARACTER_HEIGHT / 2) * (interface.ranged_target_list[i].pos_y + 1))) + \
                         Constant.SPRITE_CARACTER_HEIGHT / 2.5 * interface.ranged_target_list[i].pos_x - \
                         interface.ranged_target_list[i].pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
-                        - Constant.SPRITE_HEIGHT / 3
+                        - Constant.SPRITE_HEIGHT / 3"""
+                pos_x = (Constant.SCREEN_WIDTH / 2) + (((interface.ranged_target_list[i].pos_x - self.pos_x) * Constant.SPRITE_WIDTH / 2) - (
+                            interface.ranged_target_list[i].pos_y - self.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
+                pos_y = (Constant.SCREEN_HEIGHT / 2) + (((interface.ranged_target_list[i].pos_y - self.pos_y) * Constant.SPRITE_HEIGHT / 2 + (
+                            interface.ranged_target_list[i].pos_x - self.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - (
+                                    interface.ranged_target_list[i].pos_y * Constant.SPRITE_HEIGHT * 0.12 + interface.ranged_target_list[i].pos_x * Constant.SPRITE_HEIGHT * 0.12)
+
                 screen.blit(paf_redim, (pos_x, pos_y))
                 pygame.display.flip()
                 aleatoire = random.randint(1, 6)

@@ -81,19 +81,12 @@ class Interface():
                         cell_xy = (case.pos_x, case.pos_y)
                         cell = self.cell_xy_to_screen_xy(cell_xy, player)
 
-                        sprite_floor = pygame.image.load(f"{Constant.FLOOR}{case.sprite}")
-                        sprite_redim = pygame.transform.scale(sprite_floor,
-                                                              (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                        screen.blit(sprite_redim, (cell[0], cell[1]))
+                        if case.sprite != "":
+                            sprite_floor = pygame.image.load(f"{Constant.FLOOR}{case.sprite}")
+                            sprite_redim = pygame.transform.scale(sprite_floor,
+                                                                  (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+                            screen.blit(sprite_redim, (cell[0], cell[1]))
 
-
-        """for case in map.actual_map:
-            cell_xy = (case.pos_x, case.pos_y)
-            cell = self.cell_xy_to_screen_xy(cell_xy)
-
-            sprite_floor = pygame.image.load(f"{Constant.FLOOR}{case.sprite}")
-            sprite_redim = pygame.transform.scale(sprite_floor, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-            screen.blit(sprite_redim, (cell[0], cell[1]))"""
         self.ranged_target_list = []
         if player.action_move:
             self.check_area(player.actual_point, player, map, screen)
@@ -121,17 +114,7 @@ class Interface():
 
                         if case.occuped_by != "":
                             self.print_player(case.occuped_by, screen)
-        """for case in map.actual_map:
-            cell_xy = (case.pos_x, case.pos_y)
-            cell = self.cell_xy_to_screen_xy(cell_xy)
 
-            if case.deco != "":
-                sprite_deco = pygame.image.load(f"{Constant.DECO}{case.deco}")
-                sprite_redim = pygame.transform.scale(sprite_deco, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                screen.blit(sprite_redim, (cell[0], cell[1] - 10))
-
-            if case.occuped_by != "":
-                self.print_player(case.occuped_by, screen)"""
         pygame.display.flip()
 
     def print_player(self, player, screen):
@@ -141,12 +124,7 @@ class Interface():
         :param screen:
         :return:
         '''
-        """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * (player.pos_x + 1))) - \
-                Constant.SPRITE_WIDTH / 2 * player.pos_y
 
-        pos_y = ((Constant.SPRITE_CARACTER_HEIGHT / 2) + ((Constant.SPRITE_CARACTER_HEIGHT / 2) * (player.pos_y + 1))) + \
-                Constant.SPRITE_CARACTER_HEIGHT / 2.5 * player.pos_x - player.pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
-                - Constant.SPRITE_HEIGHT / 3"""
         if self.player_active.name == player.name:
             if player.life_mod > 0 :
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), player)
@@ -162,9 +140,10 @@ class Interface():
 
             else:
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), player)
+                print(player.name, player.pos_x, player.pos_y)
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                             (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                                                             (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
             screen.blit(sprite_player_redim, (coord[0] + 2, coord[1] - 30))
         else:
             if player.life_mod > 0:
@@ -180,10 +159,10 @@ class Interface():
                     screen.blit(halo_player_redim, (coord[0] + 2, coord[1] - 20))
 
             else:
-                coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), player)
+                coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), self.player_active)
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                             (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                                                             (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
             screen.blit(sprite_player_redim, (coord[0] + 2, coord[1] - 30))
 
     def cell_xy_to_screen_xy(self, coord, player):
@@ -195,11 +174,6 @@ class Interface():
 
         pos_x = (Constant.SCREEN_WIDTH / 2) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
         pos_y = (Constant.SCREEN_HEIGHT / 2) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - (coord[1] * Constant.SPRITE_HEIGHT * 0.12 + coord[0] * Constant.SPRITE_HEIGHT * 0.12)
-        """pos_x = ((2 * Constant.SCREEN_WIDTH / 3) + ((Constant.SPRITE_WIDTH / 2) * coord[0])) - \
-                Constant.SPRITE_WIDTH / 2 * (coord[1] - 1)
-
-        pos_y = ((Constant.SPRITE_HEIGHT / 2) + ((Constant.SPRITE_HEIGHT / 2) * (coord[1] + 1))) + \
-                Constant.SPRITE_HEIGHT / 2.5 * coord[0] - coord[1] * Constant.SPRITE_HEIGHT * 0.12"""
 
         screen_xy = (pos_x, pos_y)
         return screen_xy
@@ -297,52 +271,6 @@ class Interface():
                                                    Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
-    '''def check_case(self, player, map, screen, case_pos_x, case_pos_y):
-        """
-        verify if the cells are available
-        :param player:
-        :param map:
-        :param screen:
-        :param case_pos_x:
-        :param case_pos_y:
-        :return:
-        """
-        if player.actual_point > 0:
-
-            for pos in [[player.pos_x + 1, player.pos_y], [player.pos_x, player.pos_y + 1],
-                        [player.pos_x - 1, player.pos_y],
-                        [player.pos_x, player.pos_y - 1]]:
-
-                celltest = map.get_cell_by_xy(pos[0], pos[1])
-                if pos[0] == case_pos_x and pos[1] == case_pos_y:
-                    if player.action_move:
-                        cell_xy = (celltest.pos_x, celltest.pos_y)
-                        cell = self.cell_xy_to_screen_xy(cell_xy)
-
-                        if celltest.deco == "" and celltest.occuped_by == "":
-                            # print the accessible PNG on the tile
-                            sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
-                            sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
-                                                                           (Constant.SPRITE_WIDTH,
-                                                                            Constant.SPRITE_CARACTER_HEIGHT))
-                            screen.blit(sprite_bluecell_redim, (cell[0], cell[1]))
-                            self.set_player_can_move(player, pos)
-
-                    if player.action_melee:
-                        cell_xy = (celltest.pos_x, celltest.pos_y)
-                        cell = self.cell_xy_to_screen_xy(cell_xy)
-                        if celltest.occuped_by != "":
-                            # print the fightable PNG on the tile
-                            sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
-                            sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
-                                                                          (Constant.SPRITE_WIDTH,
-                                                                           Constant.SPRITE_CARACTER_HEIGHT))
-                            screen.blit(sprite_redcell_redim, (cell[0], cell[1]))
-                            self.set_player_can_move(player, pos)
-
-                    if player.action_ranged:
-                        pass'''
-
     def set_player_can_move(self, player, pos):
         """
         Update the "player_can_move" attibute
@@ -389,7 +317,7 @@ class Interface():
                                 cell = map.get_cell_by_xy(player.pos_x + xvar, player.pos_y + yvar)
 
                                 if player.action_move:
-                                    if cell.deco == "" and cell.occuped_by == "":
+                                    if cell.deco == "" and (cell.occuped_by == "" or cell.occuped_by.life_mod <= 0):
                                         # print the accessible PNG on the tile
                                         sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
                                         sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
