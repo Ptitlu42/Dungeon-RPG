@@ -14,7 +14,7 @@ class CreateScreen:
         self.screen_map = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
 
-    def run_create_screen(self):
+    def run_create_screen(self, player):
         # Starting server
         local_server = server.Server()
         # Démarrez le serveur dans un thread séparé
