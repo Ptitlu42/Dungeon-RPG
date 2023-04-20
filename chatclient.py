@@ -1,49 +1,22 @@
 import socket
-import threading
 
-"""
-hote -> ip du serveur chat
-port -> port utilise par le serveur chat
-creation du socket de connexion et etabli la connexion
-"""
-hote = "192.168.1.14"
+hote = "192.168.1.68"
 port = 6666
+
+# Créer un socket pour le client
 connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connexion_avec_serveur.connect((hote, port))
 print(f"Connexion établie avec le serveur sur le port {port}")
-"""
-boucle pour envoyer les messages vers le serveur
-"""
-def envoyer_messages(connexion):
-    while True:
-        message = input("> ")
-        # Échapper les guillemets doubles
-        message = message.replace('"', '\\"')
-        # encode en bytes
-        message = message.encode()
-        connexion.send(message)
-"""
-Boucle pour receptionner les messages 
-"""
-def recevoir_messages(connexion):
-    while True:
-        message = connexion.recv(1024)
-        print(message.decode())
 
-"""
-creation de 2 threads, un pour l'envoi de message, l'autre pour la reception
+msg_a_envoyer = ""
+while msg_a_envoyer != "fin":
+    msg_a_envoyer = input("> ")
+    # Envoyer le message au serveur
+    connexion_avec_serveur.send(msg_a_envoyer.encode())
 
-"""
-thread_envoi = threading.Thread(target=envoyer_messages, args=(connexion_avec_serveur,))
-thread_reception = threading.Thread(target=recevoir_messages, args=(connexion_avec_serveur,))
-
-#demarrage des threads
-thread_envoi.start()
-thread_reception.start()
-
-#empeche la perte  de messages -> join() -> permet d'attendre que le threads se termine correctement
-thread_envoi.join()
-thread_reception.join()
+    # Recevoir les messages des autres clients
+    messages_recus = connexion_avec_serveur.recv(1024).decode()
+    print(messages_recus)
 
 print("Fermeture de la connexion")
-connexion_avec_serveur.close()
+connexion_avec_serveur.close() 

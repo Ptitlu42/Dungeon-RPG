@@ -316,7 +316,8 @@ class Interface():
                                 cell = map.get_cell_by_xy(player.pos_x + xvar, player.pos_y + yvar)
 
                                 if player.action_move:
-                                    if cell.deco == "" and (cell.occuped_by == "" or cell.occuped_by.life_mod <= 0):
+                                    print(cell.sprite)
+                                    if cell.deco == "" and (cell.occuped_by == "" or cell.occuped_by.life_mod <= 0) and cell.sprite != "water.png":
                                         # print the accessible PNG on the tile
                                         sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
                                         sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
