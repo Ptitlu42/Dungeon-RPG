@@ -42,11 +42,11 @@ class Game():
         self.player_list.append(self.player2)
         # player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         # player2_s_cell.occuped_by = self.player2
-        self.player2 = player.Player("Pingu", 5, 1, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
+        self.player3 = player.Player("Pingu", 5, 1, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                      {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
                                      f"{Constant.PLAYER_PATH}pingu.png", 6, 6)
         #self.get_mod_from_player(self.player2)
-        self.player_list.append(self.player2)
+        self.player_list.append(self.player3)
         # player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         # player2_s_cell.occuped_by = self.player2
 
@@ -108,7 +108,7 @@ class Game():
 
                 if self.test_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
                     self.lobby = lobby.Lobby()
-                    self.lobby.run()
+                    self.lobby.run(self.player)
                     """self.battle_mode = battle_mode.Battle_mode(f"{Constant.MAPS}mapTest.xls", self.player_list)
                     self.battle_mode.turn()
                     self.battle_mode.victory()

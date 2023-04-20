@@ -17,7 +17,8 @@ class Lobby:
         self.join_screen = True
 
 
-    def run(self):
+
+    def run(self, player):
         self.screen_map.fill(Constant.BLACK)
         create_button = pygame.image.load(f"{Constant.BUTTONS}create.png")
         create_button_redim = pygame.transform.scale(create_button,
@@ -59,7 +60,7 @@ class Lobby:
                     pygame.quit()
 
                 if self.create_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
-                    self.create_serv = create_screen.CreateScreen()
+                    self.create_serv = create_screen.CreateScreen(player)
                     self.create_serv.run_create_screen()
 
                 if self.join_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
