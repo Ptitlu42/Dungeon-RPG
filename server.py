@@ -12,6 +12,7 @@ class Server:
         try:
             self.sck.bind((self.server_ip, self.server_port))
             print("Serveur UP")
+            print(self.server_ip)
         except:
             print("WARNING ! Server DOWN - bind problem (Wrong IP or PORT)")
         self.sck.listen()

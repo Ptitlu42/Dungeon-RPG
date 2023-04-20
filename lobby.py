@@ -4,6 +4,7 @@ import server
 import Constant
 import pygame
 import interface
+import create_screen
 
 class Lobby:
 
@@ -11,6 +12,9 @@ class Lobby:
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
+        self.main = True
+        self.create_screen = True
+        self.join_screen = True
 
 
     def run(self):
@@ -55,11 +59,8 @@ class Lobby:
                     pygame.quit()
 
                 if self.create_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
-                    # Starting server
-                    local_server = server.Server()
-                    # Démarrez le serveur dans un thread séparé
-                    server_thread = threading.Thread(target=local_server.start_server)
-                    server_thread.start()
+                    self.create_serv = create_screen.CreateScreen()
+                    self.create_serv.run_create_screen()
 
                 if self.join_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
                     pass

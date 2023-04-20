@@ -1,6 +1,6 @@
 import socket
 
-hote = "192.168.157.229"
+hote = "192.168.1.68"
 port = 6666
 
 # Créer un socket pour le client
