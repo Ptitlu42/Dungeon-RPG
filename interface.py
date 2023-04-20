@@ -73,10 +73,10 @@ class Interface():
         self.print_action_menu(screen, player)
         self.print_stat(screen, player, game)
 
-        for pos_x in range(player.pos_x - 6, player.pos_x + 6, 1):
-            if 0 < pos_x < map.cols:
-                for pos_y in range(player.pos_y - 6, player.pos_y + 6, 1):
-                    if 0 < pos_y < map.rows:
+        for pos_x in range(player.pos_x - Constant.DISTANCE, player.pos_x + Constant.DISTANCE + 1, 1):
+            if 0 <= pos_x < map.cols:
+                for pos_y in range(player.pos_y - Constant.DISTANCE, player.pos_y + Constant.DISTANCE + 1, 1):
+                    if 0 <= pos_y < map.rows:
                         case = map.get_cell_by_xy(pos_x, pos_y)
                         cell_xy = (case.pos_x, case.pos_y)
                         cell = self.cell_xy_to_screen_xy(cell_xy, player)
@@ -98,10 +98,10 @@ class Interface():
                     weapon = game.item.get_item_id(active_player.equiped_stuff["right hand"], game.item_list)
                     self.check_area(weapon.range, player, map, screen)
 
-        for pos_x in range(player.pos_x - 6, player.pos_x + 6, 1):
-            if 0 < pos_x < map.cols:
-                for pos_y in range(player.pos_y - 6, player.pos_y + 6, 1):
-                    if 0 < pos_y < map.rows:
+        for pos_x in range(player.pos_x - Constant.DISTANCE, player.pos_x + Constant.DISTANCE + 1, 1):
+            if 0 <= pos_x < map.cols:
+                for pos_y in range(player.pos_y - Constant.DISTANCE, player.pos_y + Constant.DISTANCE + 1, 1):
+                    if 0 <= pos_y < map.rows:
                         case = map.get_cell_by_xy(pos_x, pos_y)
                         cell_xy = (case.pos_x, case.pos_y)
                         cell = self.cell_xy_to_screen_xy(cell_xy, player)
@@ -136,7 +136,7 @@ class Interface():
                     halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
                     halo_player_redim = pygame.transform.scale(halo_player,
                                                                (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
-                    screen.blit(halo_player_redim, (coord[0] + 2, coord[1] - 20))
+                    screen.blit(halo_player_redim, (coord[0] + 2, coord[1] - Constant.SPRITE_HEIGHT / 3))
 
             else:
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), player)
@@ -144,7 +144,7 @@ class Interface():
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
-            screen.blit(sprite_player_redim, (coord[0] + 2, coord[1] - 30))
+            screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
         else:
             if player.life_mod > 0:
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), self.player_active)
@@ -163,7 +163,7 @@ class Interface():
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
-            screen.blit(sprite_player_redim, (coord[0] + 2, coord[1] - 30))
+            screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
 
     def cell_xy_to_screen_xy(self, coord, player):
         """
@@ -173,7 +173,7 @@ class Interface():
         """
 
         pos_x = (Constant.SCREEN_WIDTH / 2) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
-        pos_y = (Constant.SCREEN_HEIGHT / 2) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - (coord[1] * Constant.SPRITE_HEIGHT * 0.12 + coord[0] * Constant.SPRITE_HEIGHT * 0.12)
+        pos_y = (Constant.SCREEN_HEIGHT / 2) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
 
         screen_xy = (pos_x, pos_y)
         return screen_xy
