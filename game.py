@@ -8,6 +8,7 @@ import map
 import interface
 import item
 import battle_mode
+import lobby
 
 
 class Game():
@@ -21,6 +22,7 @@ class Game():
         self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
         pygame.display.set_caption("POEC Fantasy")
+        self.lobby = None
 
         # player's list
         # Player initialisation
@@ -105,11 +107,13 @@ class Game():
                     pygame.quit()
 
                 if self.test_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
-                    self.battle_mode = battle_mode.Battle_mode(f"{Constant.MAPS}mapTest.xls", self.player_list)
+                    self.lobby = lobby.Lobby()
+                    self.lobby.run()
+                    """self.battle_mode = battle_mode.Battle_mode(f"{Constant.MAPS}mapTest.xls", self.player_list)
                     self.battle_mode.turn()
                     self.battle_mode.victory()
                     # del self.battle_mode
-                    print("del ok")
+                    print("del ok")"""
 
                 if self.tuto_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
                     self.battle_mode = battle_mode.Battle_mode(f"{Constant.MAPS}mapTuto1.xls", self.player_list)

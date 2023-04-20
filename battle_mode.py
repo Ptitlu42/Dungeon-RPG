@@ -6,6 +6,7 @@ import player
 import map
 import pygame
 import interface
+import network
 
 
 class Battle_mode:
@@ -16,6 +17,9 @@ class Battle_mode:
         #self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
         self.player_list = player_list
+        print("init network")
+        self.network = network.Network()
+        print("network ok")
 
         # map 3d iso instanciation
         self.loaded_map = map.Map(map_to_load)

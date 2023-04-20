@@ -6,7 +6,8 @@ class Server:
     def __init__(self):
         #socket creation
         self.sck = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_ip = "192.168.1.42"
+        hostname = socket.gethostname()
+        self.server_ip = socket.gethostbyname(hostname)
         self.server_port = 6666
         try:
             self.sck.bind((self.server_ip, self.server_port))
