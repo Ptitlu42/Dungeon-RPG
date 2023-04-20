@@ -171,7 +171,6 @@ class Interface():
         :param coord:
         :return: cell
         """
-
         pos_x = (Constant.SCREEN_WIDTH / 2) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
         pos_y = (Constant.SCREEN_HEIGHT / 2) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
 

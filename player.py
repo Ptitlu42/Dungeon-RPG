@@ -133,6 +133,10 @@ class Player(pygame.sprite.Sprite):
             footsteps_sound.play(0)
             time.sleep(0.2)
 
+            # send new player's coord to server
+            data = str(self.pos_x) + "," + str(self.pos_y)
+            game.network.send(data.encode())
+
     def player_melee(self, map, screen, interface, game):
         """
         Attack an entity in an orthogonal cell.
