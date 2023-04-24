@@ -29,49 +29,11 @@ class Interface():
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
 
-        # arrows
-        arrow_up = pygame.image.load(f"{Constant.BUTTONS}arrow_up.png")
-        arrow_up_redim = pygame.transform.scale(arrow_up, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-        screen.blit(arrow_up_redim, (Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05))
-        self.up_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05, Constant.SPRITE_WIDTH,
-                                             Constant.SPRITE_HEIGHT)
 
-        arrow_left = pygame.image.load(f"{Constant.BUTTONS}arrow_left.png")
-        arrow_left_redim = pygame.transform.scale(arrow_left, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-        screen.blit(arrow_left_redim, (Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05))
-        self.left_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05,
-                                          Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
-
-        arrow_right = pygame.image.load(f"{Constant.BUTTONS}arrow_right.png")
-        arrow_right_redim = pygame.transform.scale(arrow_right, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-        screen.blit(arrow_right_redim,
-                    (Constant.SCREEN_WIDTH * .9, Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT))
-        self.right_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9,
-                                            Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT,
-                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT + Constant.SPRITE_HEIGHT)
-
-        arrow_down = pygame.image.load(f"{Constant.BUTTONS}arrow_down.png")
-        arrow_down_redim = pygame.transform.scale(arrow_down, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-        screen.blit(arrow_down_redim,
-                    (Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH,
-                     Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT))
-        self.down_button_zone = pygame.Rect(Constant.SCREEN_WIDTH * .9 - Constant.SPRITE_WIDTH, Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT,
-                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT + Constant.SPRITE_HEIGHT)
-
-        for active_player in game.player_list:
-
-            if active_player.is_active:
-                self.player_active = active_player
-                coord = (Constant.SCREEN_WIDTH * 0.9 - Constant.SPRITE_WIDTH / 2,
-                                                   Constant.SCREEN_HEIGHT * 0.05 + Constant.SPRITE_HEIGHT / 2)
-                sprite_player = pygame.image.load(active_player.sprite)
-                sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                             (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
-                screen.blit(sprite_player_redim, coord)
 
         player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
-        self.print_action_menu(screen, player)
-        self.print_stat(screen, player, game)
+        self.print_action_menu(screen, player, game)
+        self.print_stat(screen, game)
 
         for pos_x in range(player.pos_x - Constant.DISTANCE, player.pos_x + Constant.DISTANCE + 1, 1):
             if 0 <= pos_x < map.cols:
@@ -131,6 +93,7 @@ class Interface():
                 sprite_player = pygame.image.load(player.sprite)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
 
                 if player.is_active:
                     halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
@@ -144,13 +107,14 @@ class Interface():
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
-            screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
+                screen.blit(sprite_player_redim, (coord[0] + Constant.SPRITE_WIDTH / 4, coord[1]))
         else:
             if player.life_mod > 0:
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), self.player_active)
                 sprite_player = pygame.image.load(player.sprite)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
 
                 if player.is_active:
                     halo_player = pygame.image.load(f"{Constant.MISC}activeplayer.png")
@@ -163,7 +127,7 @@ class Interface():
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
                                                              (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
-            screen.blit(sprite_player_redim, (coord[0], coord[1] - Constant.SPRITE_HEIGHT / 2))
+                screen.blit(sprite_player_redim, (coord[0] + Constant.SPRITE_WIDTH / 4, coord[1]))
 
     def cell_xy_to_screen_xy(self, coord, player):
         """
@@ -171,25 +135,28 @@ class Interface():
         :param coord:
         :return: cell
         """
-        pos_x = (Constant.SCREEN_WIDTH / 2) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
-        pos_y = (Constant.SCREEN_HEIGHT / 2) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
+        pos_x = (Constant.SPRITE_WIDTH * 8) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
+        pos_y = (Constant.SPRITE_HEIGHT * 6) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
 
         screen_xy = (pos_x, pos_y)
         return screen_xy
 
-    def print_stat(self, screen, player, game):
+    def print_stat(self, screen, game):
         """
         print the stats of the player on the screen
         :param player:
         :param screen:
         :return:
         """
-        pos_x = Constant.SCREEN_WIDTH / 50
-        pos_y = (2 * Constant.SCREEN_HEIGHT / 3)
+        pos_x = Constant.SCREEN_WIDTH / 50  + Constant.SPRITE_WIDTH
+        pos_y = (Constant.SCREEN_HEIGHT - Constant.SPRITE_HEIGHT * 2)
         police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
-        i = 1
         length = len(game.player_list)
         for i in range(length):
+            sprite_player = pygame.image.load(game.player_list[i].sprite)
+            sprite_player_redim = pygame.transform.scale(sprite_player,
+                                                         (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+            screen.blit(sprite_player_redim, (i * Constant.SCREEN_WIDTH / 4, pos_y))
             txt_name = police.render((game.player_list[i].name), True, Constant.BLACK)
             txt_pv = police.render("Life : ", True, Constant.BLACK)
             val_pv = police.render(str(game.player_list[i].life_mod), True, Constant.BLACK)
@@ -197,31 +164,68 @@ class Interface():
             val_strength = police.render(str(game.player_list[i].strength_mod), True, Constant.BLACK)
             txt_const = police.render("Const : ", True, Constant.BLACK)
             val_const = police.render(str(game.player_list[i].const_mod), True, Constant.BLACK)
-            screen.blit(txt_name, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y))
-            screen.blit(txt_pv, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 25))
-            screen.blit(val_pv, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 25))
-            screen.blit(txt_strength, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 50))
-            screen.blit(val_strength, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 50))
-            screen.blit(txt_const, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100), pos_y + 75))
-            screen.blit(val_const, (pos_x + (i) * (20 * Constant.SCREEN_WIDTH / 100) + 150, pos_y + 75))
+            screen.blit(txt_name, (i * Constant.SCREEN_WIDTH / 4 + Constant.SPRITE_WIDTH, pos_y))
+            screen.blit(txt_pv, (i * Constant.SCREEN_WIDTH / 4 + Constant.SPRITE_WIDTH, pos_y + 25))
+            screen.blit(val_pv, (i * Constant.SCREEN_WIDTH / 4 + 150 + Constant.SPRITE_WIDTH, pos_y + 25))
+            screen.blit(txt_strength, (i * Constant.SCREEN_WIDTH / 4 + Constant.SPRITE_WIDTH, pos_y + 50))
+            screen.blit(val_strength, (i * Constant.SCREEN_WIDTH / 4 + 150 + Constant.SPRITE_WIDTH, pos_y + 50))
+            screen.blit(txt_const, (i * Constant.SCREEN_WIDTH / 4 + Constant.SPRITE_WIDTH, pos_y + 75))
+            screen.blit(val_const, (i * Constant.SCREEN_WIDTH / 4 + 150 + Constant.SPRITE_WIDTH, pos_y + 75))
 
             i += 1
-        pos_y = Constant.SCREEN_HEIGHT / 30
-        active_player = police.render("Active player : " + player.name, True, Constant.BLACK)
-        txt_pa = police.render("Point d'action restants : " + str(player.actual_point), True, Constant.BLACK)
-        screen.blit(active_player, (pos_x, pos_y))
-        screen.blit(txt_pa, (pos_x, pos_y + 50))
 
-    def print_action_menu(self, screen, player):
+    def print_action_menu(self, screen, player, game):
         """
         print the action menu on the screen
         :param screen:
         :param player:
         :return:
         """
+        pos_x = Constant.SCREEN_WIDTH - Constant.BUTTON_WIDTH - Constant.SPRITE_WIDTH
+        pos_y = Constant.SPRITE_HEIGHT
+        police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
+        active_player = police.render("Active player : ", True, Constant.BLACK)
+        screen.blit(active_player, (pos_x, pos_y))
+
+        # arrows
+        arrow_up = pygame.image.load(f"{Constant.BUTTONS}arrow_up.png")
+        arrow_up_redim = pygame.transform.scale(arrow_up, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_up_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 2))
+        self.up_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 2,
+                                          Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
+
+        arrow_left = pygame.image.load(f"{Constant.BUTTONS}arrow_left.png")
+        arrow_left_redim = pygame.transform.scale(arrow_left, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_left_redim,
+                    (Constant.SCREEN_WIDTH  - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 2))
+        self.left_button_zone = pygame.Rect(Constant.SCREEN_WIDTH  - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 2,
+                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
+
+        for active_player in game.player_list:
+
+            if active_player.is_active:
+                self.player_active = active_player
+                coord = (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3, Constant.SPRITE_HEIGHT * 2.5)
+                sprite_player = pygame.image.load(active_player.sprite)
+                sprite_player_redim = pygame.transform.scale(sprite_player,
+                                                             (Constant.SPRITE_WIDTH, Constant.SPRITE_CARACTER_HEIGHT))
+                screen.blit(sprite_player_redim, coord)
+
+        arrow_right = pygame.image.load(f"{Constant.BUTTONS}arrow_right.png")
+        arrow_right_redim = pygame.transform.scale(arrow_right, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_right_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 3))
+        self.right_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 3,
+                                             Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
+
+        arrow_down = pygame.image.load(f"{Constant.BUTTONS}arrow_down.png")
+        arrow_down_redim = pygame.transform.scale(arrow_down, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+        screen.blit(arrow_down_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 3))
+        self.down_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 3,
+                                            Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
+
         for i in range(0, 4, 1):
-            pos_x_button = Constant.SPRITE_WIDTH / 20
-            pos_y_button = ((Constant.SCREEN_HEIGHT / 20) + 30) * (i + 1) + 100
+            pos_x_button = Constant.SCREEN_WIDTH - Constant.BUTTON_WIDTH - Constant.SPRITE_WIDTH
+            pos_y_button = (Constant.BUTTON_HEIGHT * 4) + (Constant.BUTTON_HEIGHT * i) + Constant.SPRITE_HEIGHT / 2
 
             if i == 0:
                 if player.action_move:
@@ -270,6 +274,10 @@ class Interface():
                                                    Constant.BUTTON_HEIGHT)
                 screen.blit(sprite_button_redim, (pos_x_button, pos_y_button))
 
+            txt_pa = police.render("Points d'action : " + str(player.actual_point), True, Constant.BLACK)
+            screen.blit(txt_pa, (Constant.SCREEN_WIDTH - Constant.BUTTON_WIDTH - Constant.SPRITE_WIDTH * 1.5,
+                                 (Constant.BUTTON_HEIGHT * 9)))
+
     def set_player_can_move(self, player, pos):
         """
         Update the "player_can_move" attibute
@@ -316,7 +324,6 @@ class Interface():
                                 cell = map.get_cell_by_xy(player.pos_x + xvar, player.pos_y + yvar)
 
                                 if player.action_move:
-                                    print(cell.sprite)
                                     if cell.deco == "" and (cell.occuped_by == "" or cell.occuped_by.life_mod <= 0) and cell.sprite != "water.png":
                                         # print the accessible PNG on the tile
                                         sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
@@ -328,7 +335,7 @@ class Interface():
                                         self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
 
                                 if player.action_melee:
-                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name:
+                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name and cell.occuped_by.life_mod >= 0:
                                         # print the fightable PNG on the tile
                                         sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
                                         sprite_redcell_redim = pygame.transform.scale(sprite_redcell,
@@ -339,7 +346,7 @@ class Interface():
                                         self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
 
                                 if player.action_ranged:
-                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name:
+                                    if cell.occuped_by != "" and cell.occuped_by.name != player.name and cell.occuped_by.life_mod >= 0:
                                         # print the fightable PNG on the tile
                                         sprite_redcell = pygame.image.load(f"{Constant.MISC}fightable.png")
                                         sprite_redcell_redim = pygame.transform.scale(sprite_redcell,

@@ -246,9 +246,9 @@ class Player(pygame.sprite.Sprite):
                         Constant.SPRITE_CARACTER_HEIGHT / 2.5 * interface.ranged_target_list[i].pos_x - \
                         interface.ranged_target_list[i].pos_y * Constant.SPRITE_CARACTER_HEIGHT * 0.12 \
                         - Constant.SPRITE_HEIGHT / 3"""
-                pos_x = (Constant.SCREEN_WIDTH / 2) + (((interface.ranged_target_list[i].pos_x - self.pos_x) * Constant.SPRITE_WIDTH / 2) - (
+                pos_x = (Constant.SPRITE_WIDTH * 8) +  (((interface.ranged_target_list[i].pos_x - self.pos_x) * Constant.SPRITE_WIDTH / 2) - (
                             interface.ranged_target_list[i].pos_y - self.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
-                pos_y = (Constant.SCREEN_HEIGHT / 2) + (((interface.ranged_target_list[i].pos_y - self.pos_y) * Constant.SPRITE_HEIGHT / 2 + (
+                pos_y = (Constant.SPRITE_HEIGHT * 6) + (((interface.ranged_target_list[i].pos_y - self.pos_y) * Constant.SPRITE_HEIGHT / 2 + (
                             interface.ranged_target_list[i].pos_x - self.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - (
                                     interface.ranged_target_list[i].pos_y * Constant.SPRITE_HEIGHT * 0.12 + interface.ranged_target_list[i].pos_x * Constant.SPRITE_HEIGHT * 0.12)
 
