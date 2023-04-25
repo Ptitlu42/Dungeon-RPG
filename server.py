@@ -17,16 +17,23 @@ class Server:
             print("WARNING ! Server DOWN - bind problem (Wrong IP or PORT)")
         self.sck.listen()
         self.clients = []
+        self.game_launched = False
+        self.player_list = []
 
     def gerer_client(self, conn, addr):
         self.clients.append(conn)
         while True:
             try:
                 data = conn.recv(2048).decode()
+                print("server data send", data)
                 if data:
-                    print(data)
-                    for client in self.clients:
-                        client.send(data.encode())
+                    if self.game_launched:
+                        for client in self.clients:
+                            client.send(data.encode())
+                    else:
+                        data += self.clients
+                        for client in self.clients:
+                            client.send(data.encode())
                 else:
                     self.clients.remove(conn)
                     conn.close()
@@ -35,6 +42,19 @@ class Server:
                 self.clients.remove(conn)
                 conn.close()
                 break
+    def send_address(self):
+        return self.server_ip
+
+    def send_client_list(self):
+        return self.clients
+
+    def update_player_list(self, player):
+        self.player_list.append(player)
+        return self.player_list
+
+    def send_player_list(self):
+        return self.player_list
+
 
     def start_server(self):
         # loop that accepts new connections and creates threads

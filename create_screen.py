@@ -20,8 +20,9 @@ class CreateScreen:
         # Démarrez le serveur dans un thread séparé
         server_thread = threading.Thread(target=local_server.start_server)
         server_thread.start()
+        server_ip = local_server.send_address()
 
-        local_client = network.Network()
+        local_client = network.Network(server_ip)
 
         start_button = pygame.image.load(f"{Constant.BUTTONS}start.png")
         start_button_redim = pygame.transform.scale(start_button,
