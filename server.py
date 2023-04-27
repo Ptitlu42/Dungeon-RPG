@@ -28,7 +28,7 @@ class Server:
                 data = conn.recv(2048).decode()
                 if data:
                     # New method
-                    print(f"Server received : {data}")
+                    #print(f"Server received : {data}")
                     """ Old method
                             if self.game_launched:
                                 for client in self.clients:
@@ -48,7 +48,7 @@ class Server:
                     for element in self.player_list:
                         #print(f"element : {element}")
                         element_s += f"{element}, "
-                        print("server send : ", element_s)
+                        #print("server send : ", element_s)
                     conn.sendall(str.encode(element_s))
 
             except:
@@ -65,8 +65,23 @@ class Server:
         while True:
             # accept new connections
             conn, addr = self.sck.accept()
-            self.player_list.append(addr)
-            print(f"Connection established with {addr}")
-            # Threads creation
-            thread_client = threading.Thread(target=self.gerer_client, args=(conn, addr))
-            thread_client.start()
+            add_player = True
+
+
+            addr_split = addr[0]#.split(", ")
+            addr_split = addr_split.replace("(", "")
+            addr_split = addr_split.replace("'", "")
+
+            for element in self.player_list:
+                element = element[0]#.split(", ")
+                element = element.replace("(", "")
+                element = element.replace("'", "")
+                print(element, addr_split)
+                if element == addr_split:
+                    add_player = False
+            if add_player:
+                self.player_list.append(addr)
+                print(f"Connection established with {addr}")
+                # Threads creation
+                thread_client = threading.Thread(target=self.gerer_client, args=(conn, addr))
+                thread_client.start()

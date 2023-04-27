@@ -28,7 +28,7 @@ class Network:
             data_player_list = []
             self.client.send(str.encode(data))
             data_r = self.client.recv(2048).decode()
-            print(f"Client received in send fonction : {data_r}")
+            #print(f"Client received in send fonction : {data_r}")
             data_split = data_r.split(", ")
             """print("data_r : ", data_r)
             print("data_split[0] : ", data_split[0])"""
