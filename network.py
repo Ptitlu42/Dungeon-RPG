@@ -24,9 +24,19 @@ class Network:
     def send(self, data):
         # New send method
         try:
+            data_return = ""
             self.client.send(str.encode(data))
             data_r = self.client.recv(2048).decode()
             print(f"Client received in send fonction : {data_r}")
+            data_split = data_r.split(", ")
+            print("data_r : ", data_r)
+            print("data_split[0] : ", data_split[0])
+            if data_split[0] == "IP":
+                data_split[1] = data_split[1].replace("(", "")
+                data_split[1] = data_split[1].replace("'", "")
+                data_return = data_split[1]
+            if data_return != "":
+                return data_return
 
         except socket.error as e:
             print(e)
@@ -41,4 +51,5 @@ class Network:
     def receive(self):
         data = self.client.recv(2048)
         print(f"Client received in receive function : {data.decode()}")
-        return data.decode()
+
+

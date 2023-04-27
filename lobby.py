@@ -96,7 +96,10 @@ class Lobby:
             # ---------------------------------------------------------------------------------------------------------
             # If server is running
             if game_server:
-                # player_list = game_server.send_player_list()
+                # Asking player_list
+                player_in_lobby = client.send("Player_list")
+                print("lobby : ", player_in_lobby)
+
                 conn_to = f"Connecté au serveur {server_ip}"
                 txt_conn_to = self.police.render((conn_to), True, Constant.WHITE)
                 self.screen_map.blit(txt_conn_to, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
@@ -130,7 +133,11 @@ class Lobby:
                         server_thread = threading.Thread(target=game_server.start_server)
                         server_thread.start()
                         server_ip = game_server.send_address()
+
                         client = network.Network(server_ip)
+                        client_thread = threading.Thread(target=client.receive)
+
+
 
                 if self.join_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
                     client = network.Network(text)

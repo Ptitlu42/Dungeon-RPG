@@ -22,13 +22,13 @@ class Server:
     def gerer_client(self, conn, addr):
         conn.send(str.encode("Client connected"))
         self.clients.append(conn)
+
         while True:
             try:
                 data = conn.recv(2048).decode()
                 if data:
                     # New method
                     print(f"Server received : {data}")
-                    print(f"Server send : {data}")
                     """ Old method
                             if self.game_launched:
                                 for client in self.clients:
@@ -42,7 +42,13 @@ class Server:
                     print("Missing data : Client Disconnected")
                     break
                 data_s = "from server : " + data
-                conn.sendall(str.encode(data_s))
+                #conn.sendall(str.encode(data_s))
+                if data == "Player_list":
+                    for element in self.player_list:
+                        #print(f"element : {element}")
+                        element_s = f"IP, {element}"
+                        #print("server send : ", element_s)
+                        conn.sendall(str.encode(element_s))
 
             except:
                 self.clients.remove(conn)
@@ -58,6 +64,7 @@ class Server:
         while True:
             # accept new connections
             conn, addr = self.sck.accept()
+            self.player_list.append(addr)
             print(f"Connection established with {addr}")
             # Threads creation
             thread_client = threading.Thread(target=self.gerer_client, args=(conn, addr))
