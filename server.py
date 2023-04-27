@@ -44,11 +44,12 @@ class Server:
                 data_s = "from server : " + data
                 #conn.sendall(str.encode(data_s))
                 if data == "Player_list":
+                    element_s = "IP, "
                     for element in self.player_list:
                         #print(f"element : {element}")
-                        element_s = f"IP, {element}"
-                        #print("server send : ", element_s)
-                        conn.sendall(str.encode(element_s))
+                        element_s += f"{element}, "
+                        print("server send : ", element_s)
+                    conn.sendall(str.encode(element_s))
 
             except:
                 self.clients.remove(conn)

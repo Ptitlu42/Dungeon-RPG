@@ -107,10 +107,10 @@ class Lobby:
                 txt_players_conn = self.police.render(("Joueurs connectés"), True, Constant.WHITE)
                 self.screen_map.blit(txt_players_conn, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
                                                    Constant.SPRITE_HEIGHT * 5))
-                clients_list_len = len(self.client_list)
-                for i in range(0, clients_list_len,1):
+                player_in_lobby_len = len(player_in_lobby)
+                for i in range(0, player_in_lobby_len,1):
                     # print(clients_list[i])
-                    txt_client = self.police.render((str(self.client_list[i].name)), True, Constant.WHITE)
+                    txt_client = self.police.render((str(player_in_lobby[i])), True, Constant.WHITE)
                     self.screen_map.blit(txt_client, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
                                                        Constant.SPRITE_HEIGHT * (i + 6)))
 

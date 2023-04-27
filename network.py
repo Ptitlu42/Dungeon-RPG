@@ -25,18 +25,21 @@ class Network:
         # New send method
         try:
             data_return = ""
+            data_player_list = []
             self.client.send(str.encode(data))
             data_r = self.client.recv(2048).decode()
             print(f"Client received in send fonction : {data_r}")
             data_split = data_r.split(", ")
-            print("data_r : ", data_r)
-            print("data_split[0] : ", data_split[0])
+            """print("data_r : ", data_r)
+            print("data_split[0] : ", data_split[0])"""
+            data_split_len = len(data_split)
             if data_split[0] == "IP":
-                data_split[1] = data_split[1].replace("(", "")
-                data_split[1] = data_split[1].replace("'", "")
-                data_return = data_split[1]
-            if data_return != "":
-                return data_return
+                for i in range(1, data_split_len, 2):
+                    data_split[i] = data_split[i].replace("(", "")
+                    data_split[i] = data_split[i].replace("'", "")
+                    data_player_list.append(data_split[i])
+            if data_player_list:
+                return data_player_list
 
         except socket.error as e:
             print(e)
