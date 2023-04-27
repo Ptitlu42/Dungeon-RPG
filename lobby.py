@@ -19,8 +19,13 @@ class Lobby:
         self.create_screen = True
         self.join_screen = True
         self.police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
+        self.client_list = []
 
-
+    def read_client_list(self, str):
+        str = str.split(">,<")
+        str_len = len(str)
+        for element in range(0, str_len, 1):
+            self.client_list.append(element)
 
     def run(self, player):
 
@@ -91,7 +96,7 @@ class Lobby:
             # ---------------------------------------------------------------------------------------------------------
             # If server is running
             if game_server:
-                player_list = game_server.send_player_list()
+                # player_list = game_server.send_player_list()
                 conn_to = f"Connecté au serveur {server_ip}"
                 txt_conn_to = self.police.render((conn_to), True, Constant.WHITE)
                 self.screen_map.blit(txt_conn_to, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
@@ -99,10 +104,10 @@ class Lobby:
                 txt_players_conn = self.police.render(("Joueurs connectés"), True, Constant.WHITE)
                 self.screen_map.blit(txt_players_conn, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
                                                    Constant.SPRITE_HEIGHT * 5))
-                clients_list_len = len(player_list)
+                clients_list_len = len(self.client_list)
                 for i in range(0, clients_list_len,1):
                     # print(clients_list[i])
-                    txt_client = self.police.render((str(player_list[i].name)), True, Constant.WHITE)
+                    txt_client = self.police.render((str(self.client_list[i].name)), True, Constant.WHITE)
                     self.screen_map.blit(txt_client, (Constant.SCREEN_WIDTH / 2 - txt_conn_to.get_width() / 2,
                                                        Constant.SPRITE_HEIGHT * (i + 6)))
 
@@ -125,9 +130,6 @@ class Lobby:
                         server_thread = threading.Thread(target=game_server.start_server)
                         server_thread.start()
                         server_ip = game_server.send_address()
-                        clients_list = game_server.send_client_list()
-                        player_list = game_server.update_player_list(player)
-
                         client = network.Network(server_ip)
 
                 if self.join_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
@@ -152,6 +154,10 @@ class Lobby:
                             text = text[:-1]
                         else:
                             text += event.unicode
+
+                if game_server:
+                    # self.read_client_list()
+                    pass
 
 
             # Refresh Screen

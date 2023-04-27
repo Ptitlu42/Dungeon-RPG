@@ -12,7 +12,6 @@ class Server:
         try:
             self.sck.bind((self.server_ip, self.server_port))
             print("Serveur UP")
-            print(self.server_ip)
         except:
             print("WARNING ! Server DOWN - bind problem (Wrong IP or PORT)")
         self.sck.listen()
@@ -21,40 +20,38 @@ class Server:
         self.player_list = []
 
     def gerer_client(self, conn, addr):
+        conn.send(str.encode("Client connected"))
         self.clients.append(conn)
         while True:
             try:
                 data = conn.recv(2048).decode()
-                print("server data send", data)
                 if data:
-                    if self.game_launched:
-                        for client in self.clients:
-                            client.send(data.encode())
-                    else:
-                        data += self.clients
-                        for client in self.clients:
-                            client.send(data.encode())
+                    # New method
+                    print(f"Server received : {data}")
+                    print(f"Server send : {data}")
+                    """ Old method
+                            if self.game_launched:
+                                for client in self.clients:
+                                    client.send(data.encode())
+                            else:
+                                for client in self.clients:
+                                    client.send(data.encode())"""
                 else:
                     self.clients.remove(conn)
                     conn.close()
+                    print("Missing data : Client Disconnected")
                     break
+                data_s = "from server : " + data
+                conn.sendall(str.encode(data_s))
+
             except:
                 self.clients.remove(conn)
                 conn.close()
+                print("Thread Error : Client Disconnected")
                 break
+
     def send_address(self):
         return self.server_ip
-
-    def send_client_list(self):
-        return self.clients
-
-    def update_player_list(self, player):
-        self.player_list.append(player)
-        return self.player_list
-
-    def send_player_list(self):
-        return self.player_list
-
 
     def start_server(self):
         # loop that accepts new connections and creates threads
