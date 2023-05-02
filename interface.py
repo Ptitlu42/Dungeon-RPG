@@ -131,12 +131,12 @@ class Interface():
 
     def cell_xy_to_screen_xy(self, coord, player):
         """
-        Get a cell in the list of map cell
+        transfor coord of a cell to print it on screen
         :param coord:
         :return: cell
         """
         pos_x = (Constant.SPRITE_WIDTH * 8) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
-        pos_y = (Constant.SPRITE_HEIGHT * 6) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
+        pos_y = (Constant.SPRITE_HEIGHT * 5.5) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
 
         screen_xy = (pos_x, pos_y)
         return screen_xy

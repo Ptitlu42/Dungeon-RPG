@@ -30,21 +30,21 @@ class Game():
         player_temp = None
         self.player = player.Player("Owlet", 5, 1, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                     {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
-                                    f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
+                                    f"{Constant.PLAYER_PATH}Owlet.png", 10, 10)
         #self.get_mod_from_player(self.player)
         self.player_list.append(self.player)
         # player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
         # player_s_cell.occuped_by = self.player
         self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                      {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
-                                     f"{Constant.PLAYER_PATH}cat.png", 3, 4)
+                                     f"{Constant.PLAYER_PATH}cat.png", 10, 11)
         #self.get_mod_from_player(self.player2)
         self.player_list.append(self.player2)
         # player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
         # player2_s_cell.occuped_by = self.player2
         self.player3 = player.Player("Pingu", 5, 1, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
                                      {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
-                                     f"{Constant.PLAYER_PATH}pingu.png", 6, 6)
+                                     f"{Constant.PLAYER_PATH}pingu.png", 11, 11)
         #self.get_mod_from_player(self.player2)
         self.player_list.append(self.player3)
         # player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
