@@ -1,6 +1,9 @@
+from userinfo import screen_width
+from userinfo import screen_height
+
 # Screen Constants
-SCREEN_HEIGHT = 900
-SCREEN_WIDTH = 1300
+SCREEN_HEIGHT = screen_height
+SCREEN_WIDTH = screen_width
 MAP_WIDTH = 800
 MAP_HEIGHT = 600
 
