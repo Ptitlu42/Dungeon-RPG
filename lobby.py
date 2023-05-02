@@ -1,7 +1,6 @@
 # imports
 import threading
-
-from pygame.examples.textinput import TextInput
+#from pygame.examples.textinput import TextInput
 import server
 import Constant
 import pygame
