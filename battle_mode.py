@@ -6,18 +6,23 @@ import player
 import map
 import pygame
 import interface
+import network
 
 
 class Battle_mode:
-    def __init__(self):
+    def __init__(self, map_to_load, player_list):
         self.main_button_zone = None
         window_size = (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT)
         self.screen_map = pygame.display.set_mode(window_size)
-        self.screen_player = pygame.display.set_mode(window_size)
+        #self.screen_player = pygame.display.set_mode(window_size)
         self.interface = interface.Interface()
+        self.player_list = player_list
+        """print("init network")
+        self.network = network.Network()
+        print("network ok")"""
 
         # map 3d iso instanciation
-        self.loaded_map = map.Map(f"{Constant.MAPS}mapTest.xls")
+        self.loaded_map = map.Map(map_to_load)
 
         # Item creation
         self.item_list = []
@@ -30,38 +35,10 @@ class Battle_mode:
         self.item = item.Item(4, True, "Bow", "right hand", 0, 0, 0, 0, 0, 0, 4, 1)
         self.item_list.append(self.item)
 
-        # Player initialisation
-        self.player_list = []
-        player_temp = None
-        self.player = player.Player("Owlet", 5, 1, 5, 5, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                    {"head": "", "chest": "", "legs": "", "left hand": 3, "right hand": 2},
-                                    f"{Constant.PLAYER_PATH}Owlet.png", 3, 3)
-        self.get_mod_from_player(self.player)
-        self.player_list.append(self.player)
-        player_s_cell = self.loaded_map.get_cell_by_xy(self.player.pos_x, self.player.pos_y)
-        player_s_cell.occuped_by = self.player
-        self.player2 = player.Player("Cat", 5, 40, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
-                                     f"{Constant.PLAYER_PATH}cat.png", 3, 4)
-        self.get_mod_from_player(self.player2)
-        self.player_list.append(self.player2)
-        player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
-        player2_s_cell.occuped_by = self.player2
-        self.player2 = player.Player("Pingu", 5, 1, 6, 4, 5, ("", "", "", "", "", "", "", "", "", "", ""),
-                                     {"head": "", "chest": "", "legs": "", "left hand": "", "right hand": 4},
-                                     f"{Constant.PLAYER_PATH}pingu.png", 6, 6)
-        self.get_mod_from_player(self.player2)
-        self.player_list.append(self.player2)
-        player2_s_cell = self.loaded_map.get_cell_by_xy(self.player2.pos_x, self.player2.pos_y)
-        player2_s_cell.occuped_by = self.player2
-
-        length = len(self.player_list)
-        for j in range(length):
-            for i in range(0, length - j - 1):
-                if self.player_list[i].speed < self.player_list[i + 1].speed:
-                    player_temp = self.player_list[i]
-                    self.player_list[i] = self.player_list[i + 1]
-                    self.player_list[i + 1] = player_temp
+        for players in self.player_list:
+            self.get_mod_from_player(players)
+            player_s_cell = self.loaded_map.get_cell_by_xy(players.pos_x, players.pos_y)
+            player_s_cell.occuped_by = players
 
     def victory(self):
         victory = pygame.image.load(f"{Constant.BUTTONS}victory.png")
@@ -197,14 +174,3 @@ class Battle_mode:
         self.stuff_list = self.get_items_from_ids_list(self.id_list)
         self.stat_with_mods(self.stuff_list, player)
 
-    """def handle_input(self):  # get the pressed key
-        pressed = pygame.key.get_pressed()
-
-        if pressed[pygame.K_UP]:
-            self.player.pos_y -= 1
-        elif pressed[pygame.K_DOWN]:
-            self.player.pos_y += 1
-        elif pressed[pygame.K_LEFT]:
-            self.player.pos_x -= 1
-        elif pressed[pygame.K_RIGHT]:
-            self.player.pos_x += 1"""
