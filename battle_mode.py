@@ -88,10 +88,11 @@ class Battle_mode:
                     player.is_active = True
                     turn_is_on = True
                     player.actual_point = player.action_point
-                    self.interface.print_map(self.loaded_map, self.screen_map, player, self)
+
 
                     while turn_is_on:
 
+                        self.interface.print_map(self.loaded_map, self.screen_map, player, self)
                         # Get mouse position
                         mouse_x, mouse_y = pygame.mouse.get_pos()
                         # Get mouse click
@@ -112,6 +113,7 @@ class Battle_mode:
                             print(delta_x_cell, delta_y_cell)
                             print("#######")
                         ############################################################################################
+
                         if left_click:
                             # if click on move button
                             if self.interface.move_button_zone.collidepoint(mouse_x, mouse_y):
