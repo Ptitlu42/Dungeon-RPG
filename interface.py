@@ -369,11 +369,14 @@ class Interface():
         Check if the mouse is on the grid and place a white tile on the cell if so
         """
         mouse_x, mouse_y = pygame.mouse.get_pos()
+        old_mouse_x, old_mouse_y = 0, 0
         orig_x = (Constant.SPRITE_WIDTH * 8)
         orig_y = (Constant.SPRITE_HEIGHT * 5.5)
         delta_mouse_x = mouse_x - orig_x
         delta_mouse_y = mouse_y - orig_y
         sprite_ratio = math.sqrt((Constant.SPRITE_WIDTH / 2) ** 2 + (Constant.SPRITE_HEIGHT / 2) ** 2)
+        int_isometric_delta_x = 0
+        int_isometric_delta_y = 0
 
         # Distance between orig and mouse using Pythagore
         distance_orig_mouse = math.sqrt(delta_mouse_x ** 2 + delta_mouse_y ** 2)
@@ -381,11 +384,12 @@ class Interface():
         # Angle between horizontal and (orig - mouse) using trigonometry
         acos_mouse_angle = math.acos(delta_mouse_x / distance_orig_mouse)
         mouse_angle = math.degrees(acos_mouse_angle)
-        print(f"delta_mouse_x {delta_mouse_x} delta_mouse_y {delta_mouse_y} mouse_angle {mouse_angle}")
+        #print(f"delta_mouse_x {delta_mouse_x} delta_mouse_y {delta_mouse_y} mouse_angle {mouse_angle}")
         # searching the quadrant the mouse is over
+        # print(mouse_angle)
         if 0 < mouse_angle < 90:
             if delta_mouse_y < 0:
-                if delta_mouse_x > delta_mouse_y:
+                if delta_mouse_x > abs(delta_mouse_y):
                     # The angle using the isometric grid is 45° + mouse_angle
                     isometric_mouse_angle = mouse_angle + 45
 
@@ -398,13 +402,7 @@ class Interface():
                     isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
                     int_isometric_delta_y = - int((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)
 
-                    if -7 < int_isometric_delta_y < 7 and -7 < int_isometric_delta_x < 7:
-                        mouse_cell = self.cell_xy_to_screen_xy((player.pos_x + int_isometric_delta_x, player.pos_y + int_isometric_delta_y), player)
-                        sprite_deco = pygame.image.load(f"{Constant.MISC}highlight.png")
-                        sprite_redim = pygame.transform.scale(sprite_deco,
-                                                              (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                        screen.blit(sprite_redim, (mouse_cell[0], mouse_cell[1]))
-            if delta_mouse_y > 0:
+            elif delta_mouse_y > 0:
                 if delta_mouse_x > delta_mouse_y:
                     # The angle using the isometric grid is 45 - mouse_angle
                     isometric_mouse_angle = 45 - mouse_angle
@@ -418,13 +416,28 @@ class Interface():
                     isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
                     int_isometric_delta_y = - int((isometric_delta_y) / sprite_ratio)
                     # print(f"isometric_delta_x{int_isometric_delta_x} isometric_delta_y {int_isometric_delta_y}")
+                elif delta_mouse_x < delta_mouse_y:
+                    # The angle using the isometric grid is 180 - 45 - mouse_angle
+                    isometric_mouse_angle = mouse_angle - 45
 
-                    if -7 < int_isometric_delta_y < 7 and -7 < int_isometric_delta_x < 7:
-                        mouse_cell = self.cell_xy_to_screen_xy(
-                            (player.pos_x + int_isometric_delta_x, player.pos_y + int_isometric_delta_y), player)
-                        sprite_deco = pygame.image.load(f"{Constant.MISC}highlight.png")
-                        sprite_redim = pygame.transform.scale(sprite_deco,
-                                                              (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-                        screen.blit(sprite_redim, (mouse_cell[0], mouse_cell[1]))
+                    # isometric_delta_x using trigonometry
+                    rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
+                    isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
+                    int_isometric_delta_x = int((isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio)
+
+                    # isometric_delta_y using Pythagore
+                    isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
+                    int_isometric_delta_y = int((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)
+                    print(f"int_isometric_delta_x {((isometric_delta_x + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)}, int_isometric_delta_y{((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)}")
+                    print("#######")
+                    time.sleep(5)
+
+        if -7 < int_isometric_delta_y < 7 and -7 < int_isometric_delta_x < 7:
+            mouse_cell = self.cell_xy_to_screen_xy(
+                (player.pos_x + int_isometric_delta_x, player.pos_y + int_isometric_delta_y), player)
+            sprite_deco = pygame.image.load(f"{Constant.MISC}highlight.png")
+            sprite_redim = pygame.transform.scale(sprite_deco,
+                                                  (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
+            screen.blit(sprite_redim, (mouse_cell[0], mouse_cell[1]))
         # time.sleep(1)
 

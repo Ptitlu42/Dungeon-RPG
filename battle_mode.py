@@ -107,13 +107,13 @@ class Battle_mode:
                         delta_from_center = math.sqrt(pow(delta_x, 2) + pow(delta_y, 2))
                         delta_x_cell = delta_x // (Constant.SPRITE_WIDTH / 2) * -1
                         delta_y_cell = delta_y // (Constant.SPRITE_WIDTH / 2) * -1
-                        #print(delta_x_cell, delta_y_cell)
+                        """#print(delta_x_cell, delta_y_cell)
                         if delta_from_center < 4 * Constant.SPRITE_HEIGHT and left_click:
                             print("map center : ",Constant.MAP_CENTER_X, Constant.MAP_CENTER_Y)
                             print("mouse pos : ", mouse_x, mouse_y)
                             print ("delta : ", delta_x, delta_y)
                             print(delta_x_cell, delta_y_cell)
-                            print("#######")
+                            print("#######")"""
                         ############################################################################################
 
                         if left_click:
