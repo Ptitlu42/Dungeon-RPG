@@ -116,6 +116,7 @@ class Game():
                     print("del ok")"""
 
                 if self.tuto_button_zone.collidepoint(mouse_x, mouse_y) and left_click:
+                    #to do : reset satat perso -> for player in list player : valeurmod = valeur par defaut.
                     self.battle_mode = battle_mode.Battle_mode(f"{Constant.MAPS}mapTuto1.xls", self.player_list)
                     self.battle_mode.turn()
                     self.battle_mode.victory()

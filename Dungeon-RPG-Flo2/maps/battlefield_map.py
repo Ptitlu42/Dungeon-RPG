@@ -2,7 +2,7 @@ class Battlefield:
 
     def __init__(self):
         # sprites path
-        G = "/sprites/grass3.png"
+        G = "/sprites/grass1.png"
         D = "/sprites/dirt.png"
 
 

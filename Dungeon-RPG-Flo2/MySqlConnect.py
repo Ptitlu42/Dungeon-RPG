@@ -31,4 +31,3 @@ results = cursor.fetchall()
 for row in results:
     print(row)
 
-

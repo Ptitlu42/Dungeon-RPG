@@ -75,6 +75,8 @@ class Battle_mode:
                 if self.main_button_zone.collidepoint(mouse_x, mouse_y):
                     print("in return")
                     waiting = False"""
+
+        del self
         return None
 
     def turn(self):
