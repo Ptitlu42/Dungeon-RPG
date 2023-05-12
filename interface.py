@@ -423,14 +423,19 @@ class Interface():
                     # isometric_delta_x using trigonometry
                     rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
                     isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
-                    int_isometric_delta_x = int((isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio)
+                    int_isometric_delta_x = (isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio
+                    print(f"int_isometric_delta_x{int_isometric_delta_x}")
+                    int_isometric_delta_x = round(int_isometric_delta_x + (0.1 *  int_isometric_delta_x)** 0.5 )
 
                     # isometric_delta_y using Pythagore
                     isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
-                    int_isometric_delta_y = int((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)
-                    print(f"int_isometric_delta_x {((isometric_delta_x + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)}, int_isometric_delta_y{((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)}")
+                    int_isometric_delta_y = (isometric_delta_y + Constant.SPRITE_HEIGHT / 2) / sprite_ratio
+                    print(f"int_isometric_delta_y{int_isometric_delta_y}")
+                    int_isometric_delta_y = round(int_isometric_delta_y + 0.1 *  int_isometric_delta_y)
                     print("#######")
-                    time.sleep(5)
+                    print(f"int_isometric_delta_x {int_isometric_delta_x}, int_isometric_delta_y{int_isometric_delta_y}")
+                    print("#######")
+                    #time.sleep(2)
 
         if -7 < int_isometric_delta_y < 7 and -7 < int_isometric_delta_x < 7:
             mouse_cell = self.cell_xy_to_screen_xy(
