@@ -1,3 +1,4 @@
+import math
 import time
 
 import Constant
@@ -89,15 +90,32 @@ class Battle_mode:
                     player.is_active = True
                     turn_is_on = True
                     player.actual_point = player.action_point
-                    self.interface.print_map(self.loaded_map, self.screen_map, player, self)
+
 
                     while turn_is_on:
 
+                        self.interface.print_map(self.loaded_map, self.screen_map, player, self)
                         # Get mouse position
                         mouse_x, mouse_y = pygame.mouse.get_pos()
                         # Get mouse click
                         left_click, center_click, right_click = (pygame.mouse.get_pressed())
                         # Attribute action
+                        ############################################################################################
+                        # Distance from the center of the map
+                        delta_x = Constant.MAP_CENTER_X - mouse_x + Constant.SPRITE_WIDTH / 2
+                        delta_y = Constant.MAP_CENTER_Y - mouse_y + Constant.SPRITE_HEIGHT / 2
+                        delta_from_center = math.sqrt(pow(delta_x, 2) + pow(delta_y, 2))
+                        delta_x_cell = delta_x // (Constant.SPRITE_WIDTH / 2) * -1
+                        delta_y_cell = delta_y // (Constant.SPRITE_WIDTH / 2) * -1
+                        #print(delta_x_cell, delta_y_cell)
+                        if delta_from_center < 4 * Constant.SPRITE_HEIGHT and left_click:
+                            print("map center : ",Constant.MAP_CENTER_X, Constant.MAP_CENTER_Y)
+                            print("mouse pos : ", mouse_x, mouse_y)
+                            print ("delta : ", delta_x, delta_y)
+                            print(delta_x_cell, delta_y_cell)
+                            print("#######")
+                        ############################################################################################
+
                         if left_click:
                             # if click on move button
                             if self.interface.move_button_zone.collidepoint(mouse_x, mouse_y):
