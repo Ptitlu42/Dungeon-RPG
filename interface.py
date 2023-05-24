@@ -32,8 +32,6 @@ class Interface():
         bg_redim = pygame.transform.scale(background, (Constant.SCREEN_WIDTH, Constant.SCREEN_HEIGHT))
         screen.blit(bg_redim, (0, 0))
 
-
-
         player.player_can_go = {"left": False, "right": False, "up": False, "down": False}
         self.print_action_menu(screen, player, game)
         self.print_stat(screen, game)
@@ -62,7 +60,7 @@ class Interface():
                 if active_player.is_active:
                     weapon = game.item.get_item_id(active_player.equiped_stuff["right hand"], game.item_list)
                     self.check_area(weapon.range, player, map, screen)
-        self.mouse_on_grid(screen, player)
+        # self.mouse_on_grid(screen, player)
 
         for pos_x in range(player.pos_x - Constant.DISTANCE, player.pos_x + Constant.DISTANCE + 1, 1):
             if 0 <= pos_x < map.cols:
@@ -81,6 +79,7 @@ class Interface():
                         if case.occuped_by != "":
                             self.print_player(case.occuped_by, screen)
 
+        self.mouse_on_grid(screen, player)
         pygame.display.flip()
 
     def print_player(self, player, screen):
@@ -92,7 +91,7 @@ class Interface():
         '''
 
         if self.player_active.name == player.name:
-            if player.life_mod > 0 :
+            if player.life_mod > 0:
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), player)
                 sprite_player = pygame.image.load(player.sprite)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
@@ -110,7 +109,8 @@ class Interface():
                 print(player.name, player.pos_x, player.pos_y)
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                             (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
+                                                             (Constant.SPRITE_WIDTH / 2,
+                                                              Constant.SPRITE_CARACTER_HEIGHT / 2))
                 screen.blit(sprite_player_redim, (coord[0] + Constant.SPRITE_WIDTH / 4, coord[1]))
         else:
             if player.life_mod > 0:
@@ -130,7 +130,8 @@ class Interface():
                 coord = self.cell_xy_to_screen_xy((player.pos_x, player.pos_y), self.player_active)
                 sprite_player = pygame.image.load(player.tombstone)
                 sprite_player_redim = pygame.transform.scale(sprite_player,
-                                                             (Constant.SPRITE_WIDTH / 2, Constant.SPRITE_CARACTER_HEIGHT / 2))
+                                                             (Constant.SPRITE_WIDTH / 2,
+                                                              Constant.SPRITE_CARACTER_HEIGHT / 2))
                 screen.blit(sprite_player_redim, (coord[0] + Constant.SPRITE_WIDTH / 4, coord[1]))
 
     def cell_xy_to_screen_xy(self, coord, player):
@@ -139,8 +140,12 @@ class Interface():
         :param coord:
         :return: cell
         """
-        pos_x = (Constant.SPRITE_WIDTH * 8) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
-        pos_y = (Constant.SPRITE_HEIGHT * 5.5) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - ((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
+        pos_x = (Constant.SPRITE_WIDTH * 8) + (((coord[0] - player.pos_x) * Constant.SPRITE_WIDTH / 2) - (
+                coord[1] - player.pos_y) * Constant.SPRITE_WIDTH / 2 - Constant.SPRITE_WIDTH / 2)
+        pos_y = (Constant.SPRITE_HEIGHT * 5.5) + (((coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT / 2 + (
+                coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT / 2) - Constant.SPRITE_HEIGHT / 2) - (
+                        (coord[1] - player.pos_y) * Constant.SPRITE_HEIGHT * 0.12 + (
+                        coord[0] - player.pos_x) * Constant.SPRITE_HEIGHT * 0.12)
 
         screen_xy = (pos_x, pos_y)
         return screen_xy
@@ -152,7 +157,7 @@ class Interface():
         :param screen:
         :return:
         """
-        pos_x = Constant.SCREEN_WIDTH / 50  + Constant.SPRITE_WIDTH
+        pos_x = Constant.SCREEN_WIDTH / 50 + Constant.SPRITE_WIDTH
         pos_y = (Constant.SCREEN_HEIGHT - Constant.SPRITE_HEIGHT * 2)
         police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 30)
         length = len(game.player_list)
@@ -195,14 +200,16 @@ class Interface():
         arrow_up = pygame.image.load(f"{Constant.BUTTONS}arrow_up.png")
         arrow_up_redim = pygame.transform.scale(arrow_up, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
         screen.blit(arrow_up_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 2))
-        self.up_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 2,
+        self.up_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5,
+                                          Constant.SPRITE_HEIGHT * 2,
                                           Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
 
         arrow_left = pygame.image.load(f"{Constant.BUTTONS}arrow_left.png")
         arrow_left_redim = pygame.transform.scale(arrow_left, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
         screen.blit(arrow_left_redim,
-                    (Constant.SCREEN_WIDTH  - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 2))
-        self.left_button_zone = pygame.Rect(Constant.SCREEN_WIDTH  - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 2,
+                    (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 2))
+        self.left_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5,
+                                            Constant.SPRITE_HEIGHT * 2,
                                             Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
 
         for active_player in game.player_list:
@@ -217,14 +224,17 @@ class Interface():
 
         arrow_right = pygame.image.load(f"{Constant.BUTTONS}arrow_right.png")
         arrow_right_redim = pygame.transform.scale(arrow_right, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
-        screen.blit(arrow_right_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 3))
-        self.right_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 3,
+        screen.blit(arrow_right_redim,
+                    (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5, Constant.SPRITE_HEIGHT * 3))
+        self.right_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 2.5,
+                                             Constant.SPRITE_HEIGHT * 3,
                                              Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
 
         arrow_down = pygame.image.load(f"{Constant.BUTTONS}arrow_down.png")
         arrow_down_redim = pygame.transform.scale(arrow_down, (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
         screen.blit(arrow_down_redim, (Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 3))
-        self.down_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5, Constant.SPRITE_HEIGHT * 3,
+        self.down_button_zone = pygame.Rect(Constant.SCREEN_WIDTH - Constant.SPRITE_WIDTH * 3.5,
+                                            Constant.SPRITE_HEIGHT * 3,
                                             Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT)
 
         for i in range(0, 4, 1):
@@ -328,7 +338,8 @@ class Interface():
                                 cell = map.get_cell_by_xy(player.pos_x + xvar, player.pos_y + yvar)
 
                                 if player.action_move:
-                                    if cell.deco == "" and (cell.occuped_by == "" or cell.occuped_by.life_mod <= 0) and cell.sprite != "water.png":
+                                    if cell.deco == "" and (
+                                            cell.occuped_by == "" or cell.occuped_by.life_mod <= 0) and cell.sprite != "water.png":
                                         # print the accessible PNG on the tile
                                         sprite_bluecell = pygame.image.load(f"{Constant.MISC}accessible.png")
                                         sprite_bluecell_redim = pygame.transform.scale(sprite_bluecell,
@@ -361,8 +372,10 @@ class Interface():
                                         self.set_player_can_move(player, [player.pos_x + xvar, player.pos_y + yvar])
                                         self.ranged_target_list.append(cell.occuped_by)
                                         police = pygame.font.Font(f"{Constant.FONT}IMMORTAL.ttf", 20)
-                                        target_number = police.render(str(len(self.ranged_target_list) - 1), True, Constant.BLACK)
-                                        screen.blit(target_number, (cell_pos[0] + Constant.SPRITE_WIDTH / 2, cell_pos[1] + Constant.SPRITE_HEIGHT / 2))
+                                        target_number = police.render(str(len(self.ranged_target_list) - 1), True,
+                                                                      Constant.BLACK)
+                                        screen.blit(target_number, (cell_pos[0] + Constant.SPRITE_WIDTH / 2,
+                                                                    cell_pos[1] + Constant.SPRITE_HEIGHT / 2))
 
     def mouse_on_grid(self, screen, player):
         """
@@ -374,7 +387,7 @@ class Interface():
         orig_y = (Constant.SPRITE_HEIGHT * 5.5)
         delta_mouse_x = mouse_x - orig_x
         delta_mouse_y = mouse_y - orig_y
-        sprite_ratio = math.sqrt((Constant.SPRITE_WIDTH / 2) ** 2 + (Constant.SPRITE_HEIGHT / 2) ** 2)
+        sprite_ratio = math.sqrt((Constant.SPRITE_WIDTH / 2) ** 2 + (Constant.SPRITE_HEIGHT / 2 - (Constant.SPRITE_HEIGHT * 0.12)) ** 2)
         int_isometric_delta_x = 0
         int_isometric_delta_y = 0
 
@@ -384,58 +397,57 @@ class Interface():
         # Angle between horizontal and (orig - mouse) using trigonometry
         acos_mouse_angle = math.acos(delta_mouse_x / distance_orig_mouse)
         mouse_angle = math.degrees(acos_mouse_angle)
-        #print(f"delta_mouse_x {delta_mouse_x} delta_mouse_y {delta_mouse_y} mouse_angle {mouse_angle}")
+        # print(f"delta_mouse_x {delta_mouse_x} delta_mouse_y {delta_mouse_y} mouse_angle {mouse_angle}")
         # searching the quadrant the mouse is over
         # print(mouse_angle)
         if 0 < mouse_angle < 90:
             if delta_mouse_y < 0:
-                if delta_mouse_x > abs(delta_mouse_y):
+                if abs(delta_mouse_x) > abs(delta_mouse_y):
                     # The angle using the isometric grid is 45° + mouse_angle
                     isometric_mouse_angle = mouse_angle + 45
-
-                    # isometric_delta_x using trigonometry
-                    rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
-                    isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
-                    int_isometric_delta_x = int((isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio)
-
-                    # isometric_delta_y using Pythagore
-                    isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
-                    int_isometric_delta_y = - int((isometric_delta_y + Constant.SPRITE_HEIGHT / 2)/ sprite_ratio)
+                    sprite_variation_x = 0# - Constant.SPRITE_HEIGHT / 2
+                    sprite_variation_y = - Constant.SPRITE_HEIGHT / 2
 
             elif delta_mouse_y > 0:
                 if delta_mouse_x > delta_mouse_y:
                     # The angle using the isometric grid is 45 - mouse_angle
                     isometric_mouse_angle = 45 - mouse_angle
+                    sprite_variation_x = 0 #- Constant.SPRITE_HEIGHT / 2
+                    sprite_variation_y = - Constant.SPRITE_HEIGHT / 2
 
-                    # isometric_delta_x using trigonometry
-                    rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
-                    isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
-                    int_isometric_delta_x = int((isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio)
-
-                    # isometric_delta_y using Pythagore
-                    isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
-                    int_isometric_delta_y = - int((isometric_delta_y) / sprite_ratio)
-                    # print(f"isometric_delta_x{int_isometric_delta_x} isometric_delta_y {int_isometric_delta_y}")
                 elif delta_mouse_x < delta_mouse_y:
                     # The angle using the isometric grid is 180 - 45 - mouse_angle
                     isometric_mouse_angle = mouse_angle - 45
+                    sprite_variation_x = Constant.SPRITE_HEIGHT / 2
+                    sprite_variation_y = Constant.SPRITE_HEIGHT / 2
+        else:
+            isometric_mouse_angle = 0
+            sprite_variation = Constant.SPRITE_HEIGHT / 2
 
-                    # isometric_delta_x using trigonometry
-                    rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
-                    isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
-                    int_isometric_delta_x = (isometric_delta_x + Constant.SPRITE_HEIGHT / 2) / sprite_ratio
-                    print(f"int_isometric_delta_x{int_isometric_delta_x}")
-                    int_isometric_delta_x = round(int_isometric_delta_x + (0.1 *  int_isometric_delta_x)** 0.5 )
+        # isometric_delta_x using trigonometry
+        rad_isometric_mouse_angle = math.radians(isometric_mouse_angle)
+        isometric_delta_x = (math.cos(rad_isometric_mouse_angle) * distance_orig_mouse)
+        int_isometric_delta_x = round((isometric_delta_x + sprite_variation_x) / sprite_ratio)
 
-                    # isometric_delta_y using Pythagore
-                    isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
-                    int_isometric_delta_y = (isometric_delta_y + Constant.SPRITE_HEIGHT / 2) / sprite_ratio
-                    print(f"int_isometric_delta_y{int_isometric_delta_y}")
-                    int_isometric_delta_y = round(int_isometric_delta_y + 0.1 *  int_isometric_delta_y)
-                    print("#######")
-                    print(f"int_isometric_delta_x {int_isometric_delta_x}, int_isometric_delta_y{int_isometric_delta_y}")
-                    print("#######")
-                    #time.sleep(2)
+
+        # isometric_delta_y using Pythagore
+        isometric_delta_y = math.sqrt(distance_orig_mouse ** 2 - isometric_delta_x ** 2)
+        int_isometric_delta_y = round((isometric_delta_y + sprite_variation_y) / sprite_ratio)
+
+        print(((isometric_delta_x + sprite_variation_x) / sprite_ratio), ((isometric_delta_y + sprite_variation_y) / sprite_ratio))
+        print(int_isometric_delta_x, int_isometric_delta_y)
+
+        if 0 < mouse_angle < 90:
+            if delta_mouse_y < 0:
+                if delta_mouse_x > abs(delta_mouse_y):
+                    int_isometric_delta_y = - int_isometric_delta_y
+
+            elif delta_mouse_y > 0:
+                if delta_mouse_x > delta_mouse_y:
+                    int_isometric_delta_y = - int_isometric_delta_y
+
+                elif delta_mouse_x < delta_mouse_y:
+                    pass
 
         if -7 < int_isometric_delta_y < 7 and -7 < int_isometric_delta_x < 7:
             mouse_cell = self.cell_xy_to_screen_xy(
@@ -444,5 +456,10 @@ class Interface():
             sprite_redim = pygame.transform.scale(sprite_deco,
                                                   (Constant.SPRITE_WIDTH, Constant.SPRITE_HEIGHT))
             screen.blit(sprite_redim, (mouse_cell[0], mouse_cell[1]))
-        # time.sleep(1)
 
+            # Tracage de ligne
+            pygame.draw.line(screen, Constant.GREEN, (orig_x, orig_y), (mouse_x, mouse_y), 5)
+            pygame.draw.line(screen, Constant.RED, (orig_x, orig_y),
+                             (mouse_cell[0] + Constant.SPRITE_HEIGHT / 2, mouse_cell[1] + Constant.SPRITE_HEIGHT / 2),
+                             5)
+        # time.sleep(1)
